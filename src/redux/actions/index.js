@@ -52,13 +52,13 @@ export const fetchAnimals = () => {
 };
 
 export const userAuthenticate = (data) => {
-    console.log('data', data)
+  console.log('data', data)
   return (dispatch) => {
     dispatch({
       type: LOAD_USER
     })
     API.post(`${host}register/authenticate`, { ...data }).then(({ data }) => {
-      
+
       dispatch({
         type: AUTHETICATE_USER,
         payload: data
@@ -67,7 +67,7 @@ export const userAuthenticate = (data) => {
         type: SUCCESS_USER
       })
       toast.success("Voce Logou com sucesso")
-      localStorage.setItem("user@authentication",JSON.stringify(data))
+      localStorage.setItem("user@authentication", JSON.stringify(data))
     }).catch((error) => {
       dispatch({
         type: ERROR_USER
@@ -112,7 +112,6 @@ export const createUser = (data) => {
 };
 
 export const creatPessoa = (data) => {
-
   return (dispatch) => {
     dispatch({
       type: LOAD_PESSOA

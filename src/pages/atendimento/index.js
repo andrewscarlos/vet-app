@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Menu from '../../components/menu';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,8 +38,14 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 240,
+        height: 80,
+
     },
+    aaa: {  
+        display:"flex",
+        justifyContent:"space-between",
+        padding: "18px"
+    }
 }));
 
 export default function Dashboard() {
@@ -53,37 +60,14 @@ export default function Dashboard() {
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid item sm={12}>
                         <Paper className={fixedHeightPaper}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        id="firstName"
-                                        name="firstName"
-                                        label="First name"
-                                        fullWidth
-                                        autoComplete="given-name"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        id="lastName"
-                                        name="lastName"
-                                        label="Last name"
-                                        fullWidth
-                                        autoComplete="family-name"
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        id="address1"
-                                        name="address1"
-                                        label="Address line 1"
-                                        fullWidth
-                                        autoComplete="shipping address-line1"
-                                    />
-                                </Grid>
+                            <Grid container spacing={3} className={classes.aaa}>
+                                <Button variant="contained">Prontuario</Button>
+                                <Button variant="outlined">Tratamentos</Button>
+                                <Button variant="outlined">Alergias</Button>
+                                <Button variant="outlined">Medicamento</Button>
+                                <Button variant="outlined">Vacinas</Button>
+                                <Button variant="outlined">Vermifugo</Button>
+                                <Button variant="outlined">Dados</Button>
                             </Grid>
                         </Paper>
                     </Grid>
