@@ -7,7 +7,7 @@ import {
   } from "../constants";
   
   const userAuthentication = localStorage.getItem("user@authentication") || null
-  console.log('userAuthentication',userAuthentication)
+
   
   const initialState = {
     userLog: userAuthentication ? JSON.parse(userAuthentication) : {} ,

@@ -64,10 +64,10 @@ const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
 
 
     const onChange = (ev) => {
-        console.log('values', values)
+        
         const { name, value } = ev.target;
         setValues({ ...values, [name]: value });
-        console.log('values', values)
+        
     };
 
     const onSubmit = async (ev) => {

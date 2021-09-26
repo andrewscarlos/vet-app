@@ -119,7 +119,7 @@ const Animais = ({ fetchAnimals, creatPessoa, stateReducer, stateReducerUser, st
         if (cepConsumer != null && cepConsumer.length >= 8) {
             cepConsumer = cepConsumer.replace('-', '')
             const cep = await fetchCep(cepConsumer)
-            console.log('cep', cep)
+            
             if (cep) {
                 setUf(cep.uf)
                 setBairro(cep.bairro)

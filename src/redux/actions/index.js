@@ -52,7 +52,7 @@ export const fetchAnimals = () => {
 };
 
 export const userAuthenticate = (data) => {
-  console.log('data', data)
+  
   return (dispatch) => {
     dispatch({
       type: LOAD_USER

@@ -87,7 +87,7 @@ const AdicionarAnimals = ({ creatAnimal }) => {
     const onChange = (ev) => {
         const { name, value } = ev.target;
         setValues({ ...values, [name]: value });
-        console.log('values',values)
+       
     }
     const callTowFunction = (ev) =>{
         onChange(ev)
