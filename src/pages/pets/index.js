@@ -93,7 +93,7 @@ const Animais = ({ fetchAnimals, creatPessoa, stateReducer, stateReducerUser, st
         setBairro('')
         setNumero('')
         setUf('')
-    }
+    } 
 
     const onChange = (ev) => {
         const { name, value } = ev.target;

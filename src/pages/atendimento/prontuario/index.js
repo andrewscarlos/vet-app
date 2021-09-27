@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from "redux"
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Menu from '../../../components/menu';
 import Button from '@material-ui/core/Button';
@@ -13,6 +14,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import TableProtuario from './ProtuarioTable'
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import AdicionarProntuario from './AdicionarPronturio'
+import { createProntuario } from '../../../redux/actions'
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -59,10 +63,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Prontuario = () => {
+const Prontuario = ({ animalReducer }) => {
     const history = useHistory();
     const { id } = useParams();
     const [createProntuarioButton, setCreateProntuario] = useState(false)
+
+    const dataAnimal = animalReducer.animals.filter(el=> el._id === id)
+
+
     const createProntuario = ()=>{
         setCreateProntuario(true)
     }
@@ -131,7 +139,7 @@ const Prontuario = () => {
                         </Button>
 
                         <Paper className={classes.table} >
-                            {createProntuarioButton ? <AdicionarProntuario /> : <TableProtuario/>}
+                            {createProntuarioButton ? <AdicionarProntuario /> : <TableProtuario data={dataAnimal} />}
                         </Paper>
                     </Grid>
 
@@ -144,4 +152,17 @@ const Prontuario = () => {
     );
 };
 
-export default Prontuario
+
+
+const mapStateToProps = state => ({
+    animalReducer: state.animals,
+    userReducer: state.user,
+    stateAll: state
+});
+
+const mapDispatch = dispatch => bindActionCreators({
+    createProntuario
+}, dispatch);
+
+
+export default connect(mapStateToProps, mapDispatch)(Prontuario)

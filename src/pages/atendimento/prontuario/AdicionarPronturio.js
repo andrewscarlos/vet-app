@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
+import { connect } from 'react-redux'
+import { bindActionCreators } from "redux"
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Menu from '../../../components/menu';
 import Button from '@material-ui/core/Button';
 import { useHistory, useParams } from 'react-router-dom';
-import TableProtuario from './ProtuarioTable'
-import NoteAdd from '@material-ui/icons/NoteAdd';
 import Divider from '@material-ui/core/Divider';
+import { createProntuario } from '../../../redux/actions'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -32,51 +32,43 @@ const useStyles = makeStyles((theme) => ({
         border: 'solid 1px',
         marginTop: '10px'
     },
-    salvar:{
-        margin:'10px'
+    salvar: {
+        margin: '10px'
     }
 }));
 
-const Prontuario = () => {
-    const history = useHistory();
+const Prontuario = ({ createProntuario, userReducer }) => {
+
+
     const { id } = useParams();
+    const veterinario = userReducer.user.nome
+    
 
-    const onClick = (ev) => {
-        const types = ev.target.innerText
-        switch (types) {
+    
+    
+    const history = useHistory();
+    
+    const [values, setValues] = useState({
+        idAnimal: id,
+        veterinario,
+        data: Date.now()
+    })
 
-            case 'PRONTUARIO': {
-                return history.push(`/pets/prontuario/${id}`)
-            }
+    const onChange = (ev) => {
+        const { name, value } = ev.target;
+        setValues({ ...values, [name]: value });
+        console.log('values', values)
+    };
 
-            case 'TRATAMENTOS': {
-                return history.push(`/pets/tratamentos/${id}`)
-            }
+    const onSubmit = async (ev) => {
+        ev.preventDefault();
+        createProntuario(values)
 
-            case 'ALERGIAS': {
-                return history.push(`/pets/alergias/${id}`)
-            }
-
-            case 'MEDICAMENTO': {
-                return history.push(`/pets/medicamentos/${id}`)
-            }
-
-            case 'VACINAS': {
-                return history.push(`/pets/vacinas/${id}`)
-            }
-
-            case 'VERMIFUGO': {
-                return history.push(`/pets/vermifugos/${id}`)
-            }
-
-            case 'DADOS': {
-                return history.push(`/pets/dados/${id}`)
-            }
-
-            default:
-                return history.push('/dashboard')
-        }
-    }
+        const timer = setTimeout(() => {
+            history.push('/dashboard')
+        }, 1000);
+        return () => clearTimeout(timer);
+    };
 
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -86,7 +78,7 @@ const Prontuario = () => {
 
             <h1>Análise Geral</h1>
             <Divider className={classes.divider} />
-            <form>
+            <form onSubmit={onSubmit}>
                 <Grid item sm={12}>
                     <Grid container spacing={6}>
 
@@ -99,7 +91,7 @@ const Prontuario = () => {
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -113,7 +105,7 @@ const Prontuario = () => {
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -129,7 +121,7 @@ const Prontuario = () => {
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -145,7 +137,7 @@ const Prontuario = () => {
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -161,7 +153,7 @@ const Prontuario = () => {
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -173,98 +165,98 @@ const Prontuario = () => {
 
                         <Grid item xs={12} sm={6} >
                             <TextField
-                                required
+
                                 id="temperatura"
                                 name="temperatura"
                                 label="Temperatura Cº"
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={6} >
                             <TextField
-                                required
+
                                 id="frequencia-respiratoria"
                                 name="frequencia-respiratoria"
                                 label="Frequencia respiratoria (MPM)"
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={6} >
                             <TextField
-                                required
+
                                 id="frequencia-cardiaca"
                                 name="frequencia-cardiaca"
                                 label="Frequencia Cardiaca (BPM)"
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={6} >
                             <TextField
-                                required
+
                                 id="tempo-de-preenchimento-capilar"
                                 name="tempo-de-preenchimento-capilar"
                                 label="Tempo de preenchimento capilar (S)"
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={6} >
                             <TextField
-                                required
+
                                 id="mucosas"
                                 name="mucosas"
                                 label="Mucosas"
                                 type="text"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={6} >
                             <TextField
-                                required
+
                                 id="hidratacao"
                                 name="hidratacao"
                                 label="Hidratação"
                                 type="text"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={6} >
                             <TextField
-                                required
+
                                 id="ectoparasitos"
                                 name="ectoparasitos"
-                                label="Ectoparasitos)"
+                                label="Ectoparasitos"
                                 type="text"
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -283,7 +275,7 @@ const Prontuario = () => {
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                //onChange={onChange}
+                                onChange={onChange}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -295,9 +287,21 @@ const Prontuario = () => {
                     </Button>
                 </Grid>
             </form>
+            <ToastContainer/>
         </Paper>
 
     );
 };
 
-export default Prontuario
+const mapStateToProps = state => ({
+    animalReducer: state.animals,
+    userReducer: state.user,
+    stateAll: state
+});
+
+const mapDispatch = dispatch => bindActionCreators({
+    createProntuario
+}, dispatch);
+
+
+export default connect(mapStateToProps, mapDispatch)(Prontuario)
