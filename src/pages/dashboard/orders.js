@@ -38,8 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Orders() {
     const classes = useStyles();
     return (
-        <React.Fragment>
-            
+        <>
             <Table size="small">
                 <TableHead>
                     <TableRow>
@@ -63,6 +62,6 @@ export default function Orders() {
                 </TableBody>
             </Table>
             
-        </React.Fragment>
+        </>
     );
 }

@@ -1,9 +1,11 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import { Card, CardActions, CardContent } from '@material-ui/core';
+import Prontuario from './prontuario';
 
 const useStyles = makeStyles((theme) => ({
     Card: {
@@ -20,14 +22,15 @@ const bull = (
     </Box>
 );
 const CardAnimal = ({ data }) => {
-    
+    const history = useHistory()
+    const { nome, idade, raca, especie, sexo, pelagem, temperamento, peso, _id:id } = data;
     const onClick = () => {
-        
+        history.push(`pets/prontuario/${id}`)
     };
 
     const classes = useStyles();
-    const {nome , idade, raca, especie, sexo, pelagem, temperamento, peso } = data;
-    
+
+
     return (
         <Card className={classes.Card}>
             <CardContent>
@@ -57,7 +60,7 @@ const CardAnimal = ({ data }) => {
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     Temperamento: {temperamento}
                 </Typography>
-               
+
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={onClick}>Prontuário</Button>

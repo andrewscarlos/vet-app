@@ -64,7 +64,6 @@ const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
 
 
     const onChange = (ev) => {
-        
         const { name, value } = ev.target;
         setValues({ ...values, [name]: value });
         
