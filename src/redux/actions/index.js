@@ -194,3 +194,32 @@ export const createProntuario = (data) => {
   };
 };
 
+export const createTratamento = (data) => {
+
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.post(`${host}animais/tratamentos`, { ...data }).then(({ data }) => {
+      toast.success("Tratamento Cadastrado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao cadastrar o Tratamento")
+      return { error }
+    })
+  };
+};
+
+

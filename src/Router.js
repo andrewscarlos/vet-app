@@ -40,6 +40,8 @@ const Router = () => {
                 <Route path="/pets/vermifugos/:id" exact component={Vermifugo} /> 
 
 
+
+
             </Switch>
         </BrowserRouter>
     )

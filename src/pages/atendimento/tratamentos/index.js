@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import Menu from '../../../components/menu';
 import Button from '@material-ui/core/Button';
 import { useHistory, useParams } from 'react-router-dom';
+import AdicionarTratamento from './cadastrarTratamento';
+import TableTratamento from './TratamentoTable';
+import NoteAdd from '@material-ui/icons/NoteAdd'; 
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,6 +49,13 @@ const useStyles = makeStyles((theme) => ({
         display:"flex",
         justifyContent:"space-between",
         padding: "18px"
+    },table: {
+        marginTop: '10px',
+        padding: theme.spacing(2),
+        minHeight: 100
+    },
+    createTratamento: {
+        marginTop: '40px'
     }
 }));
 
@@ -71,7 +81,7 @@ const Prontuario = () => {
 
             case 'MEDICAMENTO': {
                 return history.push(`/pets/medicamentos/${id}`)
-            }
+            } 
 
             case 'VACINAS': {
                 return history.push(`/pets/vacinas/${id}`)
@@ -91,6 +101,11 @@ const Prontuario = () => {
         }
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const [createTratamentoButton, setCreateTratamento] = useState(false)
+    
+    const createTratamento = ()=>{
+        setCreateTratamento(true)
+    }
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -110,6 +125,14 @@ const Prontuario = () => {
                                 <Button variant="outlined" onClick={onClick}>Dados</Button>
                             </Grid>
                         </Paper>
+
+                        <Button className={classes.createTratamento} variant="contained" onClick={createTratamento} type="submit" color="primary">
+                            <NoteAdd />
+                        </Button>
+
+                        <Paper className={classes.table} >
+                            {createTratamentoButton && createTratamentoButton === true ? <AdicionarTratamento /> : <TableTratamento data={id} />}
+                        </Paper>
                     </Grid>
 
                     <Box pt={4}>
@@ -122,3 +145,4 @@ const Prontuario = () => {
 };
 
 export default Prontuario
+

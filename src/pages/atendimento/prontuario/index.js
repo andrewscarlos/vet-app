@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import clsx from 'clsx';
@@ -14,8 +14,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import TableProtuario from './ProtuarioTable'
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import AdicionarProntuario from './AdicionarPronturio'
-import { createProntuario } from '../../../redux/actions'
-
+import { fetchAnimals } from '../../../redux/actions'
+import EditProntuario from './EditProntuario'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,17 +63,19 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Prontuario = ({ animalReducer }) => {
+const Prontuario = ({ animalReducer, fetchAnimals }) => {
+
     const history = useHistory();
     const { id } = useParams();
     const [createProntuarioButton, setCreateProntuario] = useState(false)
 
-    const dataAnimal = animalReducer.animals.filter(el=> el._id === id)
-
-
-    const createProntuario = ()=>{
+    const [viewProntuario, setViewProntuario] = useState(false)
+    
+    const createProntuario = () => {
+        setViewProntuario(false)
         setCreateProntuario(true)
     }
+
     const onClick = (ev) => {
         const types = ev.target.innerText
         switch (types) {
@@ -134,13 +136,26 @@ const Prontuario = ({ animalReducer }) => {
                         </Paper>
 
 
-                        <Button className={classes.createProntuario} variant="contained" type="submit" color="primary">
-                            <NoteAdd onClick={createProntuario}/>
+                        <Button className={classes.createProntuario} variant="contained" onClick={createProntuario} type="submit" color="primary">
+                            <NoteAdd />
                         </Button>
 
-                        <Paper className={classes.table} >
-                            {createProntuarioButton ? <AdicionarProntuario /> : <TableProtuario data={dataAnimal} />}
-                        </Paper>
+                        {
+                            viewProntuario && viewProntuario !== false ?
+
+                                <Paper className={classes.table} >
+                                    {
+                                        <EditProntuario data={viewProntuario}/>
+                                    }
+                                </Paper> :
+
+                                <Paper className={classes.table} >
+                                    {
+                                        createProntuarioButton && createProntuarioButton === true ? <AdicionarProntuario /> : <TableProtuario viewProntuario={setViewProntuario} data={id} />
+                                    }
+                                </Paper>
+                        }
+
                     </Grid>
 
                     <Box pt={4}>
@@ -161,7 +176,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatch = dispatch => bindActionCreators({
-    createProntuario
+    fetchAnimals
 }, dispatch);
 
 

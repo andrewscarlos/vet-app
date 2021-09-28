@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField'; 
+import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { useHistory, useParams } from 'react-router-dom';
@@ -35,36 +35,57 @@ const useStyles = makeStyles((theme) => ({
     salvar: {
         margin: '10px'
     },
-    grids:{
+    grids: {
         paddingTop: '10px'
     }
 }));
 
-const Prontuario = ({ createProntuario, userReducer }) => {
+const EditProntuario = ({ createProntuario, userReducer, data }) => {
 
 
     const { id } = useParams();
     const veterinario = userReducer.user.nome
-    
 
-    
-    
+    const [peso, setPeso] = useState(data.peso || '')
+    const [idade, setIdade] = useState(data.idade || '')
+    const [descricao, setDescricao] = useState(data.descricao || '')
+    const [progresso, setProgresso] = useState(data.progresso || '')
+    const [resultado, setResultado] = useState(data.resultado || '')
+    const [temperatura, setTemperatura] = useState(data.temperatura || '')
+    const [frequenciaCardiaca, setFrequenciaCardiaca] = useState(data.frequenciaCardiaca || '')
+    const [frequenciaRespiratoria, setFrequenciaRespiratoria] = useState(data.frequenciaRespiratoria || '')
+    const [tempoPreenchimentoCapilar, setTempoPreenchimentoCapilar] = useState(data.tempoPreenchimentoCapilar || '')
+    const [mucosas, setMucosas] = useState(data.mucosas || '')
+    const [hidratacao, setHidratacao] = useState(data.hidratacao || '')
+    const [ectoparasitos, setEctoparasitos] = useState(data.ectoparasitos || '')
+    const [exameFisico, setExameFisico] = useState(data.exameFisico || '')
+
     const history = useHistory();
-    
-    const [values, setValues] = useState({
-        idAnimal: id,
-        veterinario,
-        data: Date.now()
-    })
 
-    const onChange = (ev) => {
-        const { name, value } = ev.target;
-        setValues({ ...values, [name]: value });
-    };
+    
+
 
     const onSubmit = async (ev) => {
         ev.preventDefault();
-        createProntuario(values)
+        createProntuario({
+            peso,
+            idade,
+            descricao,
+            progresso,
+            resultado,
+            temperatura,
+            frequenciaCardiaca,
+            frequenciaRespiratoria,
+            tempoPreenchimentoCapilar,
+            mucosas,
+            hidratacao,
+            ectoparasitos,
+            exameFisico,
+            idAnimal: id,
+            veterinario,
+            data: Date.now(),
+            idDoProntuario: data._id
+        })
 
         const timer = setTimeout(() => {
             history.push('/dashboard')
@@ -78,10 +99,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
 
         <Paper className={classes.table} >
 
-           
+
             <form onSubmit={onSubmit}>
-            <h1>Análise Geral</h1>
-            <Divider className={classes.divider} />
+                <h1>Análise Geral</h1>
+                <Divider className={classes.divider} />
                 <Grid item sm={12} className={classes.grids}>
                     <Grid container spacing={6}>
 
@@ -92,9 +113,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="peso"
                                 label="Peso"
                                 type="number"
+                                value={peso}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setPeso(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -106,9 +128,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="idade"
                                 label="Idade"
                                 type="number"
+                                value={idade}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setIdade(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -121,10 +144,11 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 label="Descrição"
                                 type="textarea"
                                 multiline
+                                value={descricao}
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setDescricao(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -136,11 +160,12 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="progresso"
                                 label="Pregresso"
                                 type="textarea"
+                                value={progresso}
                                 multiline
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setProgresso(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -152,11 +177,12 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="resultado"
                                 label="Resultado"
                                 type="textarea"
+                                value={resultado}
                                 multiline
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setResultado(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -173,9 +199,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="temperatura"
                                 label="Temperatura Cº"
                                 type="number"
+                                value={temperatura}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setTemperatura(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -187,9 +214,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="frequenciaRespiratoria"
                                 label="Frequencia respiratoria (MPM)"
                                 type="number"
+                                value={frequenciaRespiratoria}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setFrequenciaRespiratoria(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -201,9 +229,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="frequenciaCardiaca"
                                 label="Frequencia Cardiaca (BPM)"
                                 type="number"
+                                value={frequenciaCardiaca}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setFrequenciaCardiaca(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -217,7 +246,8 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 type="number"
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                value={tempoPreenchimentoCapilar}
+                                onChange={e => setTempoPreenchimentoCapilar(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -228,10 +258,11 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 id="mucosas"
                                 name="mucosas"
                                 label="Mucosas"
+                                value={mucosas}
                                 type="text"
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setMucosas(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -243,9 +274,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="hidratacao"
                                 label="Hidratação"
                                 type="text"
+                                value={hidratacao}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setHidratacao(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -257,9 +289,10 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 name="ectoparasitos"
                                 label="Ectoparasitos"
                                 type="text"
+                                value={ectoparasitos}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setEctoparasitos(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -275,10 +308,11 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                                 label="Exame Fífico Específico"
                                 type="textarea"
                                 multiline
+                                value={exameFisico}
                                 rows={3}
                                 variant="outlined"
                                 fullWidth
-                                onChange={onChange}
+                                onChange={e => setExameFisico(e.target.value)}
                                 autoComplete="shipping address-line1"
                             />
                         </Grid>
@@ -286,11 +320,11 @@ const Prontuario = ({ createProntuario, userReducer }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Button variant="contained" type="submit" color="primary" className={classes.salvar}>
-                        Salvar
+                        Atualizar
                     </Button>
                 </Grid>
             </form>
-            <ToastContainer/>
+            <ToastContainer />
         </Paper>
 
     );
@@ -307,4 +341,4 @@ const mapDispatch = dispatch => bindActionCreators({
 }, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatch)(Prontuario)
+export default connect(mapStateToProps, mapDispatch)(EditProntuario)

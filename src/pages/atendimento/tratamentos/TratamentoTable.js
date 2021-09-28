@@ -11,7 +11,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import Button from '@material-ui/core/Button';
 import { fetchAnimals } from '../../../redux/actions'
 import { useHistory } from 'react-router-dom';
-
+import NoteAdd from '@material-ui/icons/NoteAdd';
 
 const useStyles = makeStyles((theme) => ({
     seeMore: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewProntuario }) => {
+const ProntuarioTable = ({ fetchAnimals, data, animalReducer }) => {
     
     useEffect(async()=>{
         await fetchAnimals()
@@ -29,7 +29,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewProntuario }) 
     const redenrTable = animal.filter(el => el._id === data)
     const classes = useStyles();
     const showView = e => {
-        viewProntuario(e)
+        
     } 
     return (
         <>
@@ -38,17 +38,17 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewProntuario }) 
                 <TableHead>
                     <TableRow>
                         <TableCell>Data</TableCell>
-                        <TableCell>Descrição</TableCell>
+                        <TableCell>Tratamento</TableCell>
                         <TableCell>Veterinário</TableCell>
                         <TableCell></TableCell>
                         
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {redenrTable[0].prontuarios.map((row) => (
+                    {redenrTable[0].tratamentos.map((row) => (
                         <TableRow key={row._id}>
                             <TableCell>{row.data}</TableCell>
-                            <TableCell>{row.descricao}</TableCell>
+                            <TableCell>{row.tratamento}</TableCell>
                             <TableCell>{row.veterinario}</TableCell>
                             <TableCell>
                                <Button onClick={()=> showView(row)} > <Visibility /> </Button>
