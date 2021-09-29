@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { useHistory, useParams } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
-import { createProntuario } from '../../../redux/actions'
+import { updatedProntuario } from '../../../redux/actions'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const EditProntuario = ({ createProntuario, userReducer, data }) => {
+const EditProntuario = ({ updatedProntuario, userReducer, data }) => {
 
 
     const { id } = useParams();
@@ -67,7 +67,7 @@ const EditProntuario = ({ createProntuario, userReducer, data }) => {
 
     const onSubmit = async (ev) => {
         ev.preventDefault();
-        createProntuario({
+        updatedProntuario({
             peso,
             idade,
             descricao,
@@ -337,7 +337,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatch = dispatch => bindActionCreators({
-    createProntuario
+    updatedProntuario
 }, dispatch);
 
 

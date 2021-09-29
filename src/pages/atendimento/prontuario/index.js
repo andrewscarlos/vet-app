@@ -148,7 +148,6 @@ const Prontuario = ({ animalReducer, fetchAnimals }) => {
                                         <EditProntuario data={viewProntuario}/>
                                     }
                                 </Paper> :
-
                                 <Paper className={classes.table} >
                                     {
                                         createProntuarioButton && createProntuarioButton === true ? <AdicionarProntuario /> : <TableProtuario viewProntuario={setViewProntuario} data={id} />

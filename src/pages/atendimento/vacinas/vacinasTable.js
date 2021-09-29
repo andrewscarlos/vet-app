@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) => {
+const ProntuarioTable = ({ fetchAnimals, data, animalReducer }) => {
     
     useEffect(async()=>{
         await fetchAnimals()
@@ -29,7 +29,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
     const redenrTable = animal.filter(el => el._id === data)
     const classes = useStyles();
     const showView = e => {
-        viewTratamento(e)
+        
     } 
     return (
         <>

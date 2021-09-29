@@ -194,6 +194,34 @@ export const createProntuario = (data) => {
   };
 };
 
+export const updatedProntuario = (data) => {
+  console.log('data',data)
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.patch(`${host}animais/prontuarios`, { ...data }).then(({ data }) => {
+      toast.success("Prontuario Atualizado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao Atualizar o Prontuario")
+      return { error }
+    })
+  };
+};
+
 export const createTratamento = (data) => {
 
   return (dispatch) => {
@@ -221,5 +249,7 @@ export const createTratamento = (data) => {
     })
   };
 };
+
+
 
 
