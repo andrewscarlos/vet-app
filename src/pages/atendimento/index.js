@@ -23,7 +23,6 @@ const API = axios.create({
   baseURL: "http://localhost:5001",
 });
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -72,11 +71,16 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "nowrap",
     padding: theme.spacing(2),
   },
-  findCpf:{
-    width: '20px',
+  findCpf: {
+    width: "20px",
     height: "40px",
-    marginTop: '30px'
-  }
+    marginTop: "30px",
+  },
+  wrapper: {
+    display: "flex",
+    border: "solid 1px black",
+    alignItems: "center",
+  },
 }));
 
 const Atendimento = ({ fetchAnimals, stateReducer }) => {
@@ -86,23 +90,25 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
 
   const host = "http://localhost:5001/";
 
-  let dados = ''
-  const [fetchAnimaisPessoas, setFetchAnimais] = useState({});
-  
+  let dados = "";
+  const [fetchAnimaisPessoas, setFetchAnimais] = useState();
+  const [modal, showModal] = useState(false);
+
   const fetchAnimalsByPessoa = async (data) => {
-    const cpf = data
-    
-    const animais = API.post(`${host}pessoas/fetch`, { cpf }).then(r => r)
-    return animais
+    const cpf = data;
+
+    const animais = API.post(`${host}pessoas/fetch`, { cpf }).then((r) => r);
+    return animais;
   };
-  
+
   const onSubmit = async (ev) => {
     ev.preventDefault();
-    dados = await fetchAnimalsByPessoa(fetchAnimaisPessoas)
-    dados = dados.data.animais
-    
-  };
+    dados = await fetchAnimalsByPessoa(fetchAnimaisPessoas);
   
+    dados = dados.data.animais
+    showModal(true)
+  };
+
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
@@ -118,25 +124,24 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
             <Grid item sm={12} className={classes.grids}>
               <Grid container spacing={6}>
                 <Grid item xs={6} sm={6}>
-                <InputMask
-                      mask="999.999.999-99"
-                      maskChar=" "
-                      value={fetchAnimaisPessoas}
-                      onChange={(e) => setFetchAnimais(e.target.value)}
-                      id="cpf"
-                      name="cpf"
-                      
-                    >
-                      {() => (
-                        <TextField
-                          fullWidth
-                          className={classes.inputText}
-                          label="Buscar por CPF"
-                          required
-                          name="cpf"
-                        />
-                      )}
-                    </InputMask>
+                  <InputMask
+                    mask="999.999.999-99"
+                    maskChar=" "
+                    value={fetchAnimaisPessoas}
+                    onChange={(e) => setFetchAnimais(e.target.value)}
+                    id="cpf"
+                    name="cpf"
+                  >
+                    {() => (
+                      <TextField
+                        fullWidth
+                        className={classes.inputText}
+                        label="Buscar por CPF"
+                        required
+                        name="cpf"
+                      />
+                    )}
+                  </InputMask>
                 </Grid>
 
                 <Button
@@ -147,13 +152,14 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
                 >
                   <Search />
                 </Button>
-
               </Grid>
             </Grid>
-            <Paper className={classes.divCard}>
-              {dados.length > 0 &&
-                dados.map((el) => <CardAnimal data={el}></CardAnimal>)}
-            </Paper>
+            {modal ? (
+              <Paper className={classes.divCard}>
+                  {dados.map((el) => <CardAnimal data={el}></CardAnimal>)}
+              </Paper>
+            ) : null}
+
             <Box pt={4}>{/* <Footer /> */}</Box>
           </Container>
         </main>
