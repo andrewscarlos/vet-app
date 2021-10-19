@@ -13,6 +13,16 @@ import CardAnimal from "./cardAnimal";
 import { fetchAnimals } from "../../redux/actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import Search from "@material-ui/icons/Search";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import InputMask from "react-input-mask";
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: "http://localhost:5001",
+});
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,8 +70,13 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "scroll",
     flexDirection: "row",
     flexWrap: "nowrap",
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
+  findCpf:{
+    width: '20px',
+    height: "40px",
+    marginTop: '30px'
+  }
 }));
 
 const Atendimento = ({ fetchAnimals, stateReducer }) => {
@@ -69,28 +84,81 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
     await fetchAnimals();
   }, []);
 
-  let dados = stateReducer.animals;
+  const host = "http://localhost:5001/";
 
+  let dados = ''
+  const [fetchAnimaisPessoas, setFetchAnimais] = useState({});
+  
+  const fetchAnimalsByPessoa = async (data) => {
+    const cpf = data
+    
+    const animais = API.post(`${host}pessoas/fetch`, { cpf }).then(r => r)
+    return animais
+  };
+  
+  const onSubmit = async (ev) => {
+    ev.preventDefault();
+    dados = await fetchAnimalsByPessoa(fetchAnimaisPessoas)
+    dados = dados.data.animais
+    
+  };
+  
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Menu msg="Atendimento" />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Typography className={classes.title}>Animais</Typography>
-          <Divider className={classes.hr} light="true" />
+    <form onSubmit={onSubmit}>
+      <div className={classes.root}>
+        <CssBaseline />
+        <Menu msg="Atendimento" />
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container maxWidth="lg" className={classes.container}>
+            <Typography className={classes.title}>Buscar Animais</Typography>
+            <Divider className={classes.hr} light="true" />
+            <Grid item sm={12} className={classes.grids}>
+              <Grid container spacing={6}>
+                <Grid item xs={6} sm={6}>
+                <InputMask
+                      mask="999.999.999-99"
+                      maskChar=" "
+                      value={fetchAnimaisPessoas}
+                      onChange={(e) => setFetchAnimais(e.target.value)}
+                      id="cpf"
+                      name="cpf"
+                      
+                    >
+                      {() => (
+                        <TextField
+                          fullWidth
+                          className={classes.inputText}
+                          label="Buscar por CPF"
+                          required
+                          name="cpf"
+                        />
+                      )}
+                    </InputMask>
+                </Grid>
 
-          <Paper className={classes.divCard}>
-            {dados.length > 0 &&
-              dados.map((el) => <CardAnimal data={el}></CardAnimal>)}
-          </Paper>
-          <Box pt={4}>{/* <Footer /> */}</Box>
-        </Container>
-      </main>
-    </div>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  className={classes.findCpf}
+                >
+                  <Search />
+                </Button>
+
+              </Grid>
+            </Grid>
+            <Paper className={classes.divCard}>
+              {dados.length > 0 &&
+                dados.map((el) => <CardAnimal data={el}></CardAnimal>)}
+            </Paper>
+            <Box pt={4}>{/* <Footer /> */}</Box>
+          </Container>
+        </main>
+      </div>
+    </form>
   );
 };
 

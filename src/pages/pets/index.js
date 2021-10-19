@@ -84,20 +84,7 @@ const Animais = ({
   const showPetCadastro = () => {
     history.push("/pets/adicionar");
   };
-  const setAllValues = () => {
-    setNome("");
-    setCPF("");
-    setEmail("");
-    setEmail("");
-    setTelefone("");
-    setSus("");
 
-    setCep("");
-    setEndereco("");
-    setBairro("");
-    setNumero("");
-    setUf("");
-  };
 
   const onChange = (ev) => {
     const { name, value } = ev.target;
@@ -137,7 +124,18 @@ const Animais = ({
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
-    creatPessoa(values);
+    creatPessoa({
+      nome,
+      cpf,
+      email,
+      telefone,
+      sus,
+      cep,
+      endereco,
+      bairro,
+      numero,
+      uf
+    });
 
     const timer = setTimeout(() => {
       history.push("/dashboard");

@@ -112,6 +112,7 @@ export const createUser = (data) => {
 };
 
 export const creatPessoa = (data) => {
+  
   return (dispatch) => {
     dispatch({
       type: LOAD_PESSOA
@@ -195,7 +196,7 @@ export const createProntuario = (data) => {
 };
 
 export const updatedProntuario = (data) => {
-  console.log('data',data)
+  
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -501,4 +502,5 @@ export const createVermifugos = (data) => {
     })
   };
 };
+
 
