@@ -15,20 +15,17 @@ import { fetchAnimals } from '../../../redux/actions'
 
 const listSelector = createSelector(
   (state) => state.animals.animals,
-  (_, completed) => completed,
+  (list, id) => id,
   (list, id) => {
-    console.log("list ", list.animals.animals)
-    return find(list.animals.animals, { "_id": id })
-  },
-  (list, _) => list
+    let newList = find(list, { "_id": id })
+    return newList ? newList.prontuarios : []
+  }
 )
 
 
 const ProntuarioTable = ({ id, viewProntuario }) => {
   const dispatch = useDispatch()
   const result = useSelector(state => listSelector(state, id))
-
-  console.log(" result", result)
 
   useEffect(() => {
     dispatch(fetchAnimals())
