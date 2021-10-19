@@ -24,7 +24,7 @@ import { MenuItem } from './itensMenu';
 import { useStyles } from "./../styles"
 
 const routers = [
-  { id: 1, url: "/dashboard", title: "Home", icon: <DashboardIcon /> },
+  { id: 1, url: "/", title: "Dashboard", icon: <DashboardIcon /> },
   { id: 2, url: "/atendimento", title: "Atendimento", icon: <LocalHospital /> },
   { id: 3, url: "/pets", title: "Pets", icon: <Pets /> },
   { id: 5, url: null, icon: <Divider /> },
@@ -49,10 +49,11 @@ const walkItem = (items, text) => {
   }
 }
 
-const MenuAdmin = ({ msg }) => {
+const MenuAdmin = () => {
   const { pathname } = useLocation()
   const classes = useStyles();
   const [open, setOpen] = useState(true);
+  const [title, setTitle] = useState(document.title)
 
   const handleDrawerOpen = useCallback(() => {
     setOpen(true);
@@ -65,13 +66,13 @@ const MenuAdmin = ({ msg }) => {
 
   useEffect(() => {
     if (pathname) {
-      const arrPath = pathname.split('/').filter(i => i !== '')
-      arrPath.forEach(text => {
-        const item = walkItem(routers, text)
-        if (item) {
-          document.title = item.title
-        }
-      })
+      const item = walkItem(routers, pathname)
+      if (item) {
+        document.title = item.title
+        setTitle(item.title)
+      } else {
+        document.title = "Vet-App"
+      }
     }
   }, [pathname])
 
@@ -89,7 +90,7 @@ const MenuAdmin = ({ msg }) => {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {msg}
+            {title}
           </Typography>
 
         </Toolbar>
@@ -114,7 +115,7 @@ const MenuAdmin = ({ msg }) => {
             }
 
             if (router.onClick !== undefined) {
-              return <MenuItem {...router} />
+              return <MenuItem key={`${router.id}-menu-${index}`} {...router} />
             }
 
             return (

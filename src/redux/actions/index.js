@@ -52,12 +52,12 @@ export const fetchAnimals = () => {
 };
 
 export const userAuthenticate = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_USER
     })
-    API.post(`${host}register/authenticate`, { ...data }).then(({ data }) => {
+    API.post(`/register/authenticate`, { ...data }).then(({ data }) => {
 
       dispatch({
         type: AUTHETICATE_USER,
@@ -86,7 +86,7 @@ export const createUser = (data) => {
     dispatch({
       type: LOAD_USER
     })
-    API.post(`${host}register`, { ...data }).then(({ data }) => {
+    API.post(`/register`, { ...data }).then(({ data }) => {
       toast.success("Animal cadastrado com sucesso")
       dispatch({
         type: CREATE_USER,
@@ -117,7 +117,7 @@ export const creatPessoa = (data) => {
       type: LOAD_PESSOA
     });
 
-    API.post(`${host}pessoas`, { ...data }).then(({ data }) => {
+    API.post(`/pessoas`, { ...data }).then(({ data }) => {
       toast.success("Cadastrado com sucesso")
       dispatch({
         type: CREATE_PESSOA,
@@ -145,7 +145,7 @@ export const creatAnimal = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais`, { ...data }).then(({ data }) => {
+    API.post(`/animais`, { ...data }).then(({ data }) => {
       toast.success("Cadastrado com sucesso")
       dispatch({
         type: CREATE_ANIMAL,
@@ -173,7 +173,7 @@ export const createProntuario = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/prontuarios`, { ...data }).then(({ data }) => {
+    API.post(`/animais/prontuarios`, { ...data }).then(({ data }) => {
       toast.success("Prontuario Cadastrado com sucesso")
       dispatch({
         type: CREATE_ANIMAL,
@@ -195,7 +195,7 @@ export const createProntuario = (data) => {
 };
 
 export const updatedProntuario = (data) => {
-  console.log('data',data)
+  console.log('data', data)
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -223,7 +223,7 @@ export const updatedProntuario = (data) => {
 };
 
 export const updatedTratamento = (data) => {
-  console.log('data',data)
+  console.log('data', data)
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -279,7 +279,7 @@ export const createTratamento = (data) => {
 };
 
 export const updatedAlergias = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -335,7 +335,7 @@ export const createAlergias = (data) => {
 };
 
 export const updatedMedicamentos = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -391,7 +391,7 @@ export const createMedicamentos = (data) => {
 };
 
 export const updatedVacinas = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -447,7 +447,7 @@ export const createVacinas = (data) => {
 };
 
 export const updatedVermifugos = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS

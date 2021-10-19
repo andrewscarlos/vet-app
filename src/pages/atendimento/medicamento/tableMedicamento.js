@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,22 +20,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) => {
-    
-    useEffect(async()=>{
-        await fetchAnimals()
-    },[])
-    const history = useHistory()
-    const animal = animalReducer.animals
-    const redenrTable = animal.filter(el => el._id === data);
-    console.log('redenrTable',redenrTable)
-  
-    const classes = useStyles();
-    const showView = e => {
-        viewTratamento(e)
-    } 
+
+    // useEffect(async()=>{
+    //     await fetchAnimals()
+    // },[])
+    // const history = useHistory()
+    // const animal = animalReducer.animals
+    // const redenrTable = animal.filter(el => el._id === data);
+    // console.log('redenrTable',redenrTable)
+
+    // const classes = useStyles();
+    // const showView = e => {
+    //     viewTratamento(e)
+    // } 
+
+
     return (
         <>
-            
+
             <Table size="small">
                 <TableHead>
                     <TableRow>
@@ -43,24 +45,24 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
                         <TableCell>Medicamentos</TableCell>
                         <TableCell>Veterinário</TableCell>
                         <TableCell></TableCell>
-                        
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {redenrTable[0].medicamentos.map((row) => (
+                    {/* {redenrTable[0].medicamentos.map((row) => (
                         <TableRow key={row._id}>
                             <TableCell>{row.data}</TableCell>
                             <TableCell>{row.medicamento}</TableCell>
                             <TableCell>{row.veterinario}</TableCell>
                             <TableCell>
-                               <Button onClick={()=> showView(row)} > <Visibility /> </Button>
+                                <Button onClick={() => showView(row)} > <Visibility /> </Button>
                             </TableCell>
-                            
+
                         </TableRow>
-                    ))}
+                    ))} */}
                 </TableBody>
             </Table>
-            
+
         </>
     );
 };

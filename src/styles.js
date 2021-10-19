@@ -36,6 +36,7 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     overflow: "auto",
+    marginTop: 64
   },
   container: {
     padding: theme.spacing(4),
@@ -83,7 +84,27 @@ export const useStyles = makeStyles((theme) => ({
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9),
-    },
-  }
+    }
+  },
+  divCard: {
+    display: "flex",
+    overflowX: "scroll",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    padding: theme.spacing(2)
+  },
+  createTratamento: {
+    marginTop: "40px",
+  },
+  table: {
+    marginTop: "10px",
+    padding: theme.spacing(2),
+    minHeight: 100,
+  },
+  aaa: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "18px",
+  },
 }));
 
