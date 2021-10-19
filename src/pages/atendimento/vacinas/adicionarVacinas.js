@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { useHistory, useParams } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
-import { createTratamento } from '../../../redux/actions'
+import { createVacinas } from '../../../redux/actions'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const AdicionarTratamento = ({ createTratamento, userReducer }) => {
+const AdicionarTratamento = ({ createVacinas, userReducer }) => {
 
 
     const { id } = useParams();
@@ -60,7 +60,7 @@ const AdicionarTratamento = ({ createTratamento, userReducer }) => {
 
     const onSubmit = async (ev) => {
         ev.preventDefault();
-        createTratamento(values)
+        createVacinas(values)
 
         const timer = setTimeout(() => {
             history.push('/dashboard')
@@ -76,7 +76,7 @@ const AdicionarTratamento = ({ createTratamento, userReducer }) => {
 
            
             <form onSubmit={onSubmit}>
-            <h1>Tratamentos</h1>
+            <h1>Vacinas</h1>
             <Divider className={classes.divider} />
                 <Grid item sm={12} className={classes.grids}>
                     <Grid container spacing={6}>
@@ -85,8 +85,8 @@ const AdicionarTratamento = ({ createTratamento, userReducer }) => {
                             <TextField
                                 required
                                 id="Tratramento"
-                                name="tratamento"
-                                label="Tratramento"
+                                name="vacina"
+                                label="Vacina"
                                 type="text"
                                 variant="outlined"
                                 fullWidth
@@ -132,7 +132,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatch = dispatch => bindActionCreators({
-    createTratamento
+    createVacinas
 }, dispatch);
 
 

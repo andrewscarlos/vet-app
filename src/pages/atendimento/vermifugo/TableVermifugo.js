@@ -39,17 +39,17 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
                 <TableHead>
                     <TableRow>
                         <TableCell>Data</TableCell>
-                        <TableCell>Vacinas</TableCell>
+                        <TableCell>Vermifugos</TableCell>
                         <TableCell>Veterinário</TableCell>
                         <TableCell></TableCell>
                         
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {redenrTable[0].vacinas.map((row) => (
+                    {redenrTable[0].vermifugos.map((row) => (
                         <TableRow key={row._id}>
                             <TableCell>{row.data}</TableCell>
-                            <TableCell>{row.vacina}</TableCell>
+                            <TableCell>{row.vermifugo}</TableCell>
                             <TableCell>{row.veterinario}</TableCell>
                             <TableCell>
                                <Button onClick={()=> showView(row)} > <Visibility /> </Button>

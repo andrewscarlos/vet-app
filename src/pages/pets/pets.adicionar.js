@@ -10,7 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import Menu from '../../components/menu';
 import InputMask from "react-input-mask";
 import Button from '@material-ui/core/Button';
-import Pets from '@material-ui/icons/Pets'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';

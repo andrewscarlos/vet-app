@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { useHistory, useParams } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
-import { updatedTratamento } from "../../../redux/actions";
+import { updatedVacinas } from "../../../redux/actions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -40,24 +40,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditProntuario = ({ updatedTratamento, userReducer, data }) => {
+const EditProntuario = ({ updatedVacinas, userReducer, data }) => {
 
   const { id } = useParams();
   const veterinario = userReducer.user.nome;
   const [descricao, setDescricao] = useState(data.descricao || "");
-  const [tratamento, setTratamento] = useState(data.tratamento || "");
-
+  const [vacina, setVacina] = useState(data.vacina || "");
+  console.log('data',data)
   const history = useHistory();
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
-    updatedTratamento({
+    updatedVacinas({
       descricao,
-      tratamento,
+      vacina,
       idAnimal: id,
       veterinario,
       data: Date.now(),
-      idDoTratamento: data._id,
+      idDaVacina: data._id,
     });
 
     const timer = setTimeout(() => {
@@ -71,7 +71,7 @@ const EditProntuario = ({ updatedTratamento, userReducer, data }) => {
   return (
     <Paper className={classes.table}>
       <form onSubmit={onSubmit}>
-        <h1>Tratamentos</h1>
+        <h1>Vacinas</h1>
         <Divider className={classes.divider} />
         <Grid item sm={12} className={classes.grids}>
           <Grid container spacing={6}>
@@ -79,13 +79,13 @@ const EditProntuario = ({ updatedTratamento, userReducer, data }) => {
               <TextField
                 required
                 id="Tratramento"
-                name="tratamento"
-                label="Tratramento"
+                name="vacina"
+                label="Vacinas"
                 type="text"
                 variant="outlined"
                 fullWidth
-                value={tratamento}
-                onChange={e => setTratamento(e.target.value)}
+                value={vacina}
+                onChange={e => setVacina(e.target.value)}
                 autoComplete="shipping address-line1"
               />
             </Grid>
@@ -133,7 +133,7 @@ const mapStateToProps = (state) => ({
 const mapDispatch = (dispatch) =>
   bindActionCreators(
     {
-      updatedTratamento,
+      updatedVacinas,
     },
     dispatch
   );

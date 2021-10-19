@@ -26,8 +26,9 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
     },[])
     const history = useHistory()
     const animal = animalReducer.animals
-    const redenrTable = animal.filter(el => el._id === data)
+    const redenrTable = animal.filter(el => el._id === data);
     console.log('redenrTable',redenrTable)
+  
     const classes = useStyles();
     const showView = e => {
         viewTratamento(e)
@@ -39,17 +40,17 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
                 <TableHead>
                     <TableRow>
                         <TableCell>Data</TableCell>
-                        <TableCell>Vacinas</TableCell>
+                        <TableCell>Medicamentos</TableCell>
                         <TableCell>Veterinário</TableCell>
                         <TableCell></TableCell>
                         
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {redenrTable[0].vacinas.map((row) => (
+                    {redenrTable[0].medicamentos.map((row) => (
                         <TableRow key={row._id}>
                             <TableCell>{row.data}</TableCell>
-                            <TableCell>{row.vacina}</TableCell>
+                            <TableCell>{row.medicamento}</TableCell>
                             <TableCell>{row.veterinario}</TableCell>
                             <TableCell>
                                <Button onClick={()=> showView(row)} > <Visibility /> </Button>

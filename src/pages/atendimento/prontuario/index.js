@@ -135,7 +135,7 @@ const Prontuario = ({ animalReducer, fetchAnimals }) => {
                             </Grid>
                         </Paper>
 
-
+                        
                         <Button className={classes.createProntuario} variant="contained" onClick={createProntuario} type="submit" color="primary">
                             <NoteAdd />
                         </Button>

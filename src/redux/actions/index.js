@@ -222,6 +222,34 @@ export const updatedProntuario = (data) => {
   };
 };
 
+export const updatedTratamento = (data) => {
+  console.log('data',data)
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.patch(`${host}animais/tratamentos`, { ...data }).then(({ data }) => {
+      toast.success("Tratamento Atualizado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao Atualizar o Tratamento")
+      return { error }
+    })
+  };
+};
+
 export const createTratamento = (data) => {
 
   return (dispatch) => {
@@ -250,6 +278,227 @@ export const createTratamento = (data) => {
   };
 };
 
+export const updatedAlergias = (data) => {
+  
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
 
+    API.patch(`${host}animais/alergias`, { ...data }).then(({ data }) => {
+      toast.success("Alergias Atualizada com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
 
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao Atualizar as Alergias")
+      return { error }
+    })
+  };
+};
+
+export const createAlergias = (data) => {
+
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.post(`${host}animais/alergias`, { ...data }).then(({ data }) => {
+      toast.success("Alergias Cadastrado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao cadastrar o Alergias")
+      return { error }
+    })
+  };
+};
+
+export const updatedMedicamentos = (data) => {
+  
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.patch(`${host}animais/medicamentos`, { ...data }).then(({ data }) => {
+      toast.success("Medicamentos Atualizado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao Atualizar o Medicamentos")
+      return { error }
+    })
+  };
+};
+
+export const createMedicamentos = (data) => {
+
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.post(`${host}animais/medicamentos`, { ...data }).then(({ data }) => {
+      toast.success("Medicamentos Cadastrado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao cadastrar o Medicamentos")
+      return { error }
+    })
+  };
+};
+
+export const updatedVacinas = (data) => {
+  
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.patch(`${host}animais/vacinas`, { ...data }).then(({ data }) => {
+      toast.success("Vacinas Atualizadas com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao Atualizar as Vacinas")
+      return { error }
+    })
+  };
+};
+
+export const createVacinas = (data) => {
+
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.post(`${host}animais/vacinas`, { ...data }).then(({ data }) => {
+      toast.success("Vacinas Cadastrado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao cadastrar o Vacinas")
+      return { error }
+    })
+  };
+};
+
+export const updatedVermifugos = (data) => {
+  
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.patch(`${host}animais/vermifugos`, { ...data }).then(({ data }) => {
+      toast.success("Vermifugos Atualizadas com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao Atualizar as Vermifugos")
+      return { error }
+    })
+  };
+};
+
+export const createVermifugos = (data) => {
+
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ANIMALS
+    });
+
+    API.post(`${host}animais/vermifugos`, { ...data }).then(({ data }) => {
+      toast.success("Vermifugos Cadastrado com sucesso")
+      dispatch({
+        type: CREATE_ANIMAL,
+        payload: data
+      })
+
+      dispatch({
+        type: SUCESS_ANIMALS
+      })
+
+    }).catch((error) => {
+      dispatch({
+        type: ERROR_ANIMALS
+      })
+      toast.error("Erro ao cadastrar o Vermifugos")
+      return { error }
+    })
+  };
+};
 
