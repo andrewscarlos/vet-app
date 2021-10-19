@@ -29,7 +29,9 @@ const routers = [
   { id: 3, url: "/pets", title: "Pets", icon: <Pets /> },
   { id: 5, url: null, icon: <Divider /> },
   { id: 4, url: "/usuarios", title: "Usuarios", icon: <PeopleIcon /> },
-  { id: 5, url: "exit", title: "Sair", icon: <ExitToApp />, onClick: () => { console.log("Sair") } }
+  { id: 5, url: "exit", title: "Sair", icon: <ExitToApp />, onClick: () => { console.log("Sair") } },
+  { id: 8, url: "prontuario", title: "Prontuário", hide: true },
+  { id: 9, url: "vermifugos", title: "Vermifugos", hide: true },
 ]
 
 const walkItem = (items, text) => {
@@ -109,7 +111,7 @@ const MenuAdmin = () => {
         </div>
         <Divider />
         <List>
-          {routers.map((router, index) => {
+          {routers.filter(menu => !menu.hide).map((router, index) => {
             if (!router.url && router.icon !== undefined) {
               return router.icon
             }

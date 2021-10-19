@@ -29,31 +29,31 @@ const Pets = () => {
         <Pet />
       </Route>
 
-      <Route path="/pets/alergias/:id" exact >
+      <Route path={`${path}/alergias/:id`} exact >
         <Alergias />
       </Route>
 
-      <Route path="/pets/dados/:id" exact >
+      <Route path={`${path}/dados/:id`} exact >
         <Dados />
       </Route>
 
-      <Route path="/pets/medicamentos/:id" exact >
+      <Route path={`${path}/medicamentos/:id`} exact >
         <Medicamento />
       </Route>
 
-      <Route path="/pets/prontuario/:id" exact >
+      <Route path={`${path}/prontuario/:id`} exact >
         <Prontuario />
       </Route>
 
-      <Route path="/pets/tratamentos/:id" exact >
+      <Route path={`${path}/tratamentos/:id`} exact >
         <Tratamentos />
       </Route>
 
-      <Route path="/pets/vacinas/:id" exact >
+      <Route path={`${path}/vacinas/:id`} exact >
         <Vacinas />
       </Route>
 
-      <Route path="/pets/vermifugos/:id" exact >
+      <Route path={`${path}/vermifugos/:id`} exact >
         <Vermifugo />
       </Route>
     </Switch>

@@ -173,24 +173,27 @@ export const createProntuario = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.post(`/animais/prontuarios`, { ...data }).then(({ data }) => {
-      toast.success("Prontuario Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/prontuarios`, { ...data })
+      .then(({ data }) => {
+        toast.success("Prontuario Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Prontuario")
-      return { error }
-    })
+      .catch((error) => {
+        console.error(error)
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Prontuario")
+        return { error }
+      })
   };
 };
 

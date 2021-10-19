@@ -104,7 +104,7 @@ export const useStyles = makeStyles((theme) => ({
   aaa: {
     display: "flex",
     justifyContent: "space-between",
-    padding: "18px",
+    padding: "18px"
   },
 }));
 

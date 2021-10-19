@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { Link, useRouteMatch } from "react-router-dom"
+import { Link } from "react-router-dom"
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
@@ -21,7 +21,6 @@ import { fetchCep } from "./../../utils/cep"
 
 const Animais = ({ creatPessoa }) => {
   const classes = useStyles()
-  const { path } = useRouteMatch()
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
   const [values, setValues] = useState({
@@ -50,8 +49,6 @@ const Animais = ({ creatPessoa }) => {
 
   }, [creatPessoa, values])
 
-
-
   const findCep = useCallback(() => {
     if (cep.length && cep.length >= 8) {
       (async () => {
@@ -71,9 +68,7 @@ const Animais = ({ creatPessoa }) => {
   return (
     <>
       <Container maxWidth="lg" className={classes.container}>
-
         <h1>Responsável</h1>
-
         <form onSubmit={onSubmit}>
           <Grid item sm={12}>
             <Paper className={fixedHeightPaper}>
