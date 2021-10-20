@@ -19,8 +19,8 @@ import { useStyles } from "./../../../styles"
 const Prontuario = () => {
   const { id } = useParams()
   const classes = useStyles()
-  const [editData, setEditData] = useState(null);
-  const [viewTratamento, setviewTratamento] = useState(false);
+  const [editData, setEditData] = useState(null)
+  const [viewTratamento, setviewTratamento] = useState(false)
 
   const createTratamento = () => {
     setEditData(null)

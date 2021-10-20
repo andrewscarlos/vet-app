@@ -404,24 +404,26 @@ export const updatedVacinas = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.patch(`${host}animais/vacinas`, { ...data }).then(({ data }) => {
-      toast.success("Vacinas Atualizadas com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.patch(`/animais/vacinas`, { ...data })
+      .then(({ data }) => {
+        toast.success("Vacinas Atualizadas com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao Atualizar as Vacinas")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao Atualizar as Vacinas")
+        return { error }
+      })
   };
 };
 
@@ -432,24 +434,26 @@ export const createVacinas = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/vacinas`, { ...data }).then(({ data }) => {
-      toast.success("Vacinas Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/vacinas`, { ...data })
+      .then(({ data }) => {
+        toast.success("Vacinas Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Vacinas")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Vacinas")
+        return { error }
+      })
   };
 };
 
@@ -460,7 +464,7 @@ export const updatedVermifugos = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.patch(`${host}animais/vermifugos`, { ...data }).then(({ data }) => {
+    API.patch(`/animais/vermifugos`, { ...data }).then(({ data }) => {
       toast.success("Vermifugos Atualizadas com sucesso")
       dispatch({
         type: CREATE_ANIMAL,

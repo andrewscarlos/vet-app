@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import { useHistory, useParams } from "react-router-dom";
-import Divider from "@material-ui/core/Divider";
-import { updatedVacinas } from "../../../redux/actions";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
+import Paper from "@material-ui/core/Paper"
+import Button from "@material-ui/core/Button"
+import Divider from "@material-ui/core/Divider"
+import "react-toastify/dist/ReactToastify.css"
+
+import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
+
+import { updatedVacinas, createVacinas } from "../../../redux/actions"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,34 +39,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditProntuario = ({ updatedVacinas, userReducer, data }) => {
+const FormVacinas = ({ editData }) => {
+  const classes = useStyles()
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  const veterinario = useSelector(state => state.user.userLog.user.nome)
 
-  const { id } = useParams();
-  const veterinario = userReducer.user.nome;
-  const [descricao, setDescricao] = useState(data.descricao || "");
-  const [vacina, setVacina] = useState(data.vacina || "");
-  console.log('data',data)
-  const history = useHistory();
+  const [descricao, setDescricao] = useState("")
+  const [vacina, setVacina] = useState("")
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
-    updatedVacinas({
-      descricao,
-      vacina,
-      idAnimal: id,
-      veterinario,
-      data: Date.now(),
-      idDaVacina: data._id,
-    });
-
-    const timer = setTimeout(() => {
-      history.push("/dashboard");
-    }, 1000);
-    return () => clearTimeout(timer);
+    if (editData) {
+      updatedVacinas({
+        descricao,
+        vacina,
+        idAnimal: id,
+        veterinario,
+        data: Date.now(),
+        idDaVacina: editData._id,
+      });
+    } else {
+      dispatch(
+        createVacinas({
+          descricao,
+          vacina,
+          idAnimal: id,
+          veterinario,
+          data: Date.now(),
+        })
+      )
+    }
   };
 
-  const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <Paper className={classes.table}>
       <form onSubmit={onSubmit}>
@@ -84,9 +88,9 @@ const EditProntuario = ({ updatedVacinas, userReducer, data }) => {
                 type="text"
                 variant="outlined"
                 fullWidth
+                autoComplete="shipping address-line1"
                 value={vacina}
                 onChange={e => setVacina(e.target.value)}
-                autoComplete="shipping address-line1"
               />
             </Grid>
 
@@ -97,13 +101,13 @@ const EditProntuario = ({ updatedVacinas, userReducer, data }) => {
                 name="descricao"
                 label="Descrição"
                 type="text"
-                value={descricao}
                 multiline
                 rows={5}
                 variant="outlined"
                 fullWidth
-                onChange={e => setDescricao(e.target.value)}
                 autoComplete="shipping address-line1"
+                value={descricao}
+                onChange={e => setDescricao(e.target.value)}
               />
             </Grid>
           </Grid>
@@ -119,23 +123,8 @@ const EditProntuario = ({ updatedVacinas, userReducer, data }) => {
           </Button>
         </Grid>
       </form>
-      <ToastContainer />
     </Paper>
   );
 };
 
-const mapStateToProps = (state) => ({
-  animalReducer: state.animals,
-  userReducer: state.user,
-  stateAll: state,
-});
-
-const mapDispatch = (dispatch) =>
-  bindActionCreators(
-    {
-      updatedVacinas,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatch)(EditProntuario);
+export default FormVacinas
