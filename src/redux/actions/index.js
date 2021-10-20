@@ -369,30 +369,31 @@ export const updatedMedicamentos = (data) => {
 };
 
 export const createMedicamentos = (data) => {
-
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/medicamentos`, { ...data }).then(({ data }) => {
-      toast.success("Medicamentos Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/medicamentos`, { ...data })
+      .then(({ data }) => {
+        toast.success("Medicamentos Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Medicamentos")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Medicamentos")
+        return { error }
+      })
   };
 };
 

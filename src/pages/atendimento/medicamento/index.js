@@ -5,59 +5,61 @@ import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
 import { useParams } from "react-router-dom"
+import Stack from '@mui/material/Stack'
 
-import AdicionarMedicamentos from "./adicionarMedicamento"
-import TableMedicamento from "./tableMedicamento"
+import TableMedicamento from "./TableMedicamento"
+
 import NoteAdd from "@material-ui/icons/NoteAdd"
-import EditMedicamento from "./EditMedimento"
+import FormMedimento from "./FormMedimento"
 
 import AtendimentoHeader from "./../../../components/AtendimentosHeader"
 import { useStyles } from "./../../../styles"
 
 
 const Prontuario = () => {
-  const { id } = useParams();
-
-  const classes = useStyles();
-  const [createTratamentoButton, setCreateTratamento] = useState(false);
+  const { id } = useParams()
+  const classes = useStyles()
+  const [editData, setEditData] = useState(null);
   const [viewTratamento, setviewTratamento] = useState(false);
-  const createTratamento = () => {
-    setCreateTratamento(false);
-    setCreateTratamento(true);
-  };
-  return (
 
+  const createTratamento = () => {
+    setEditData(null)
+    setviewTratamento(true)
+  };
+
+  return (
     <Container maxWidth="lg" className={classes.container}>
       <Grid item sm={12}>
         <AtendimentoHeader />
 
-        <Button
-          className={classes.createTratamento}
-          variant="contained"
-          onClick={createTratamento}
-          type="submit"
-          color="primary"
+        <Stack
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          spacing={2}
+          style={{ marginTop: 10 }}
         >
-          <NoteAdd />
-        </Button>
-        {viewTratamento && viewTratamento !== false ? (
+          <Button
+            className={classes.createTratamento}
+            variant="contained"
+            onClick={createTratamento}
+            type="submit"
+            color="primary"
+          >
+            <NoteAdd />
+          </Button>
+        </Stack>
+
+        {viewTratamento ? (
           <Paper className={classes.table}>
-            {<EditMedicamento data={viewTratamento} />}
+            {<FormMedimento data={viewTratamento} editData={editData} />}
           </Paper>
         ) : (
           <Paper className={classes.table}>
-            {createTratamentoButton && createTratamentoButton === true ? (
-              <AdicionarMedicamentos />
-            ) : (
-              <TableMedicamento
-                viewTratamento={setviewTratamento}
-                data={id}
-              />
-            )}
+            <TableMedicamento viewTratamento={setviewTratamento} id={id} onEdit={setEditData} />
           </Paper>
         )}
       </Grid>
-
       <Box pt={4}>{/* <Footer /> */}</Box>
     </Container>
 
