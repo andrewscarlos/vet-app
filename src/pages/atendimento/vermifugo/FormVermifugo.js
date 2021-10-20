@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import { useHistory, useParams } from "react-router-dom";
-import Divider from "@material-ui/core/Divider";
-import { updatedVermifugos } from "../../../redux/actions";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect, useCallback } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
+import Paper from "@material-ui/core/Paper"
+import Button from "@material-ui/core/Button"
+import Divider from "@material-ui/core/Divider"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
+import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
+
+import { updatedVermifugos, createVermifugos } from "../../../redux/actions"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,34 +40,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditProntuario = ({ updatedVermifugos, userReducer, data }) => {
-
+const FormVermifugo = ({ editData }) => {
   const { id } = useParams();
-  const veterinario = userReducer.user.nome;
-  const [descricao, setDescricao] = useState(data.descricao || "");
-  const [vermifugo, setVermifugo] = useState(data.vermifugo || "");
-  
-  const history = useHistory();
+  const classes = useStyles()
 
-  const onSubmit = async (ev) => {
+  const dispatch = useDispatch()
+  const veterinario = useSelector(state => state.user.userLog.user.nome)
+
+  const [descricao, setDescricao] = useState("");
+  const [vermifugo, setVermifugo] = useState("");
+
+  const onSubmit = useCallback((ev) => {
     ev.preventDefault();
-    updatedVermifugos({
-      descricao,
-      vermifugo,
-      idAnimal: id,
-      veterinario,
-      data: Date.now(),
-      idDovermifugo: data._id,
-    });
 
-    const timer = setTimeout(() => {
-      history.push("/dashboard");
-    }, 1000);
-    return () => clearTimeout(timer);
-  };
+    if (editData) {
+      dispatch(
+        updatedVermifugos({
+          descricao,
+          vermifugo,
+          idAnimal: id,
+          veterinario,
+          data: Date.now(),
+          idDovermifugo: editData._id,
+        })
+      )
+    } else {
+      dispatch(
+        createVermifugos({
+          descricao,
+          vermifugo,
+          idAnimal: id,
+          veterinario,
+          data: Date.now(),
+        })
+      )
+    }
+  }, [descricao, dispatch, editData, id, vermifugo, veterinario])
 
-  const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  useEffect(() => {
+    if (editData) {
+      setDescricao(editData.descricao)
+      setVermifugo(editData.vermifugo)
+    }
+  }, [editData])
+
   return (
     <Paper className={classes.table}>
       <form onSubmit={onSubmit}>
@@ -84,9 +100,9 @@ const EditProntuario = ({ updatedVermifugos, userReducer, data }) => {
                 type="text"
                 variant="outlined"
                 fullWidth
+                autoComplete="shipping address-line1"
                 value={vermifugo}
                 onChange={e => setVermifugo(e.target.value)}
-                autoComplete="shipping address-line1"
               />
             </Grid>
 
@@ -97,13 +113,13 @@ const EditProntuario = ({ updatedVermifugos, userReducer, data }) => {
                 name="descricao"
                 label="Descrição"
                 type="text"
-                value={descricao}
                 multiline
                 rows={5}
                 variant="outlined"
                 fullWidth
-                onChange={e => setDescricao(e.target.value)}
                 autoComplete="shipping address-line1"
+                value={descricao}
+                onChange={e => setDescricao(e.target.value)}
               />
             </Grid>
           </Grid>
@@ -115,7 +131,7 @@ const EditProntuario = ({ updatedVermifugos, userReducer, data }) => {
             color="primary"
             className={classes.salvar}
           >
-            Atualizar
+            Salvar
           </Button>
         </Grid>
       </form>
@@ -124,18 +140,5 @@ const EditProntuario = ({ updatedVermifugos, userReducer, data }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  animalReducer: state.animals,
-  userReducer: state.user,
-  stateAll: state,
-});
 
-const mapDispatch = (dispatch) =>
-  bindActionCreators(
-    {
-      updatedVermifugos,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatch)(EditProntuario);
+export default FormVermifugo

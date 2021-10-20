@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField"
@@ -48,7 +48,7 @@ const FormVacinas = ({ editData }) => {
   const [descricao, setDescricao] = useState("")
   const [vacina, setVacina] = useState("")
 
-  const onSubmit = async (ev) => {
+  const onSubmit = useCallback((ev) => {
     ev.preventDefault();
     if (editData) {
       updatedVacinas({
@@ -70,7 +70,14 @@ const FormVacinas = ({ editData }) => {
         })
       )
     }
-  };
+  }, [descricao, dispatch, editData, id, vacina, veterinario])
+
+  useEffect(() => {
+    if (editData) {
+      setDescricao(editData.descricao)
+      setVacina(editData.vacina)
+    }
+  }, [editData])
 
   return (
     <Paper className={classes.table}>
