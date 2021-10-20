@@ -22,7 +22,6 @@ const listSelector = createSelector(
   }
 )
 
-
 const ProntuarioTable = ({ id, viewProntuario }) => {
   const dispatch = useDispatch()
   const result = useSelector(state => listSelector(state, id))

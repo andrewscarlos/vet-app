@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import Box from '@material-ui/core/Box'

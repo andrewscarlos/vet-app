@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import { useHistory, useParams } from "react-router-dom";
-import Divider from "@material-ui/core/Divider";
-import { updatedTratamento } from "../../../redux/actions";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useCallback, useEffect } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
+import TextField from "@material-ui/core/TextField"
+import Paper from "@material-ui/core/Paper"
+import Button from "@material-ui/core/Button"
+import Divider from "@material-ui/core/Divider"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
+
+import { updatedTratamento, createTratamento } from "../../../redux/actions"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,34 +39,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditProntuario = ({ updatedTratamento, userReducer, data }) => {
+const FormTratamento = ({ editData }) => {
+  const { id } = useParams()
+  const dispatch = useDispatch()
 
-  const { id } = useParams();
-  const veterinario = userReducer.user.nome;
-  const [descricao, setDescricao] = useState(data.descricao || "");
-  const [tratamento, setTratamento] = useState(data.tratamento || "");
+  const veterinario = useSelector(state => state.user.userLog.user.nome)
+  const [descricao, setDescricao] = useState("")
+  const [tratamento, setTratamento] = useState("")
 
-  const history = useHistory();
+  useEffect(() => {
+    setDescricao(editData.descricao)
+    setTratamento(editData.tratamento)
+  }, [editData])
 
-  const onSubmit = async (ev) => {
+
+  const onSubmit = useCallback((ev) => {
     ev.preventDefault();
-    updatedTratamento({
-      descricao,
-      tratamento,
-      idAnimal: id,
-      veterinario,
-      data: Date.now(),
-      idDoTratamento: data._id,
-    });
-
-    const timer = setTimeout(() => {
-      history.push("/dashboard");
-    }, 1000);
-    return () => clearTimeout(timer);
-  };
+    if (editData) {
+      dispatch(
+        updatedTratamento({
+          descricao,
+          tratamento,
+          idAnimal: id,
+          veterinario,
+          data: Date.now(),
+          idDoTratamento: editData._id
+        })
+      )
+    } else {
+      dispatch(
+        createTratamento({
+          descricao,
+          tratamento,
+          idAnimal: id,
+          veterinario,
+          data: Date.now()
+        })
+      )
+    }
+  }, [descricao, dispatch, editData, id, tratamento, veterinario])
 
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
   return (
     <Paper className={classes.table}>
       <form onSubmit={onSubmit}>
@@ -115,7 +128,7 @@ const EditProntuario = ({ updatedTratamento, userReducer, data }) => {
             color="primary"
             className={classes.salvar}
           >
-            Atualizar
+            Salvar
           </Button>
         </Grid>
       </form>
@@ -124,18 +137,4 @@ const EditProntuario = ({ updatedTratamento, userReducer, data }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  animalReducer: state.animals,
-  userReducer: state.user,
-  stateAll: state,
-});
-
-const mapDispatch = (dispatch) =>
-  bindActionCreators(
-    {
-      updatedTratamento,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatch)(EditProntuario);
+export default FormTratamento;

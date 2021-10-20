@@ -232,24 +232,26 @@ export const updatedTratamento = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.patch(`${host}animais/tratamentos`, { ...data }).then(({ data }) => {
-      toast.success("Tratamento Atualizado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.patch(`/animais/tratamentos`, { ...data })
+      .then(({ data }) => {
+        toast.success("Tratamento Atualizado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao Atualizar o Tratamento")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao Atualizar o Tratamento")
+        return { error }
+      })
   };
 };
 
