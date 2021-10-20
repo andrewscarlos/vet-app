@@ -1,7 +1,7 @@
 import { FETCH_ANIMALS, CREATE_ANIMAL, SUCESS_ANIMALS, LOAD_ANIMALS, ERROR_ANIMALS } from "../constants";
 
 const initialState = {
-  animals: {},
+  animals: [],
   success: false,
   error: false,
   loading: false,

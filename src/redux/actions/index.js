@@ -52,12 +52,12 @@ export const fetchAnimals = () => {
 };
 
 export const userAuthenticate = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_USER
     })
-    API.post(`${host}register/authenticate`, { ...data }).then(({ data }) => {
+    API.post(`/register/authenticate`, { ...data }).then(({ data }) => {
 
       dispatch({
         type: AUTHETICATE_USER,
@@ -86,7 +86,7 @@ export const createUser = (data) => {
     dispatch({
       type: LOAD_USER
     })
-    API.post(`${host}register`, { ...data }).then(({ data }) => {
+    API.post(`/register`, { ...data }).then(({ data }) => {
       toast.success("Animal cadastrado com sucesso")
       dispatch({
         type: CREATE_USER,
@@ -112,13 +112,13 @@ export const createUser = (data) => {
 };
 
 export const creatPessoa = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_PESSOA
     });
 
-    API.post(`${host}pessoas`, { ...data }).then(({ data }) => {
+    API.post(`/pessoas`, { ...data }).then(({ data }) => {
       toast.success("Cadastrado com sucesso")
       dispatch({
         type: CREATE_PESSOA,
@@ -146,7 +146,7 @@ export const creatAnimal = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais`, { ...data }).then(({ data }) => {
+    API.post(`/animais`, { ...data }).then(({ data }) => {
       toast.success("Cadastrado com sucesso")
       dispatch({
         type: CREATE_ANIMAL,
@@ -174,29 +174,31 @@ export const createProntuario = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/prontuarios`, { ...data }).then(({ data }) => {
-      toast.success("Prontuario Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/prontuarios`, { ...data })
+      .then(({ data }) => {
+        toast.success("Prontuario Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Prontuario")
-      return { error }
-    })
+      .catch((error) => {
+        console.error(error)
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Prontuario")
+        return { error }
+      })
   };
 };
 
 export const updatedProntuario = (data) => {
-  
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -224,30 +226,32 @@ export const updatedProntuario = (data) => {
 };
 
 export const updatedTratamento = (data) => {
-  console.log('data',data)
+  console.log('data', data)
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
     });
 
-    API.patch(`${host}animais/tratamentos`, { ...data }).then(({ data }) => {
-      toast.success("Tratamento Atualizado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.patch(`/animais/tratamentos`, { ...data })
+      .then(({ data }) => {
+        toast.success("Tratamento Atualizado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao Atualizar o Tratamento")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao Atualizar o Tratamento")
+        return { error }
+      })
   };
 };
 
@@ -280,7 +284,7 @@ export const createTratamento = (data) => {
 };
 
 export const updatedAlergias = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -308,35 +312,36 @@ export const updatedAlergias = (data) => {
 };
 
 export const createAlergias = (data) => {
-
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/alergias`, { ...data }).then(({ data }) => {
-      toast.success("Alergias Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/alergias`, { ...data })
+      .then(({ data }) => {
+        toast.success("Alergias Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Alergias")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Alergias")
+        return { error }
+      })
   };
 };
 
 export const updatedMedicamentos = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
@@ -364,58 +369,61 @@ export const updatedMedicamentos = (data) => {
 };
 
 export const createMedicamentos = (data) => {
-
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/medicamentos`, { ...data }).then(({ data }) => {
-      toast.success("Medicamentos Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/medicamentos`, { ...data })
+      .then(({ data }) => {
+        toast.success("Medicamentos Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Medicamentos")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Medicamentos")
+        return { error }
+      })
   };
 };
 
 export const updatedVacinas = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
     });
 
-    API.patch(`${host}animais/vacinas`, { ...data }).then(({ data }) => {
-      toast.success("Vacinas Atualizadas com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.patch(`/animais/vacinas`, { ...data })
+      .then(({ data }) => {
+        toast.success("Vacinas Atualizadas com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao Atualizar as Vacinas")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao Atualizar as Vacinas")
+        return { error }
+      })
   };
 };
 
@@ -426,35 +434,37 @@ export const createVacinas = (data) => {
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/vacinas`, { ...data }).then(({ data }) => {
-      toast.success("Vacinas Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/vacinas`, { ...data })
+      .then(({ data }) => {
+        toast.success("Vacinas Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Vacinas")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Vacinas")
+        return { error }
+      })
   };
 };
 
 export const updatedVermifugos = (data) => {
-  
+
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
     });
 
-    API.patch(`${host}animais/vermifugos`, { ...data }).then(({ data }) => {
+    API.patch(`/animais/vermifugos`, { ...data }).then(({ data }) => {
       toast.success("Vermifugos Atualizadas com sucesso")
       dispatch({
         type: CREATE_ANIMAL,

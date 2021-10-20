@@ -1,78 +1,64 @@
-import React, {useEffect, useState} from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from "redux"
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import React, { useEffect, useCallback } from 'react'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
 import Visibility from '@material-ui/icons/Visibility'
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button'
+import find from "lodash/find"
+import { useDispatch, useSelector } from 'react-redux'
+import { createSelector } from 'reselect'
+
 import { fetchAnimals } from '../../../redux/actions'
-import { useHistory } from 'react-router-dom';
-import NoteAdd from '@material-ui/icons/NoteAdd';
 
-const useStyles = makeStyles((theme) => ({
-    seeMore: {
-        marginTop: theme.spacing(3),
-    },
-}));
+const listSelector = createSelector(
+  (state) => state.animals.animals,
+  (list, id) => id,
+  (list, id) => {
+    let newList = find(list, { "_id": id })
+    return newList ? newList.alergias : []
+  }
+)
 
-const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) => {
-    
-    useEffect(async()=>{
-        await fetchAnimals()
-    },[])
-    const history = useHistory()
-    const animal = animalReducer.animals
-    const redenrTable = animal.filter(el => el._id === data);
-    console.log('redenrTable',redenrTable)
-    const classes = useStyles();
-    const showView = e => {
-        viewTratamento(e)
-    } 
-    return (
-        <>
-            
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Data</TableCell>
-                        <TableCell>Alergias</TableCell>
-                        <TableCell>Veterinário</TableCell>
-                        <TableCell></TableCell>
-                        
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {redenrTable[0].alergias.map((row) => (
-                        <TableRow key={row._id}>
-                            <TableCell>{row.data}</TableCell>
-                            <TableCell>{row.alergias}</TableCell>
-                            <TableCell>{row.veterinario}</TableCell>
-                            <TableCell>
-                               <Button onClick={()=> showView(row)} > <Visibility /> </Button>
-                            </TableCell>
-                            
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            
-        </>
-    );
+const ProntuarioTable = ({ id, viewTratamento, onEdit }) => {
+  const dispatch = useDispatch()
+  const result = useSelector(state => listSelector(state, id))
+
+  useEffect(() => {
+    dispatch(fetchAnimals())
+  }, [dispatch])
+
+  const showView = useCallback(e => {
+    viewTratamento(true)
+    onEdit(e)
+  }, [onEdit, viewTratamento])
+
+  return (
+    <Table size="small">
+      <TableHead>
+        <TableRow>
+          <TableCell>Data</TableCell>
+          <TableCell>Alergias</TableCell>
+          <TableCell>Veterinário</TableCell>
+          <TableCell></TableCell>
+
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {result.map((row) => (
+          <TableRow key={row._id}>
+            <TableCell>{row.data}</TableCell>
+            <TableCell>{row.alergias}</TableCell>
+            <TableCell>{row.veterinario}</TableCell>
+            <TableCell>
+              <Button onClick={() => showView(row)} > <Visibility /> </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
 };
 
-const mapStateToProps = state => ({
-    animalReducer: state.animals,
-    userReducer: state.user,
-    stateAll: state
-});
-
-const mapDispatch = dispatch => bindActionCreators({
-    fetchAnimals
-}, dispatch);
-
-
-export default connect(mapStateToProps, mapDispatch)(ProntuarioTable)
+export default ProntuarioTable
