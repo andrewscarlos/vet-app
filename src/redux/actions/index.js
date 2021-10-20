@@ -312,30 +312,31 @@ export const updatedAlergias = (data) => {
 };
 
 export const createAlergias = (data) => {
-
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
     });
 
-    API.post(`${host}animais/alergias`, { ...data }).then(({ data }) => {
-      toast.success("Alergias Cadastrado com sucesso")
-      dispatch({
-        type: CREATE_ANIMAL,
-        payload: data
-      })
+    API.post(`/animais/alergias`, { ...data })
+      .then(({ data }) => {
+        toast.success("Alergias Cadastrado com sucesso")
+        dispatch({
+          type: CREATE_ANIMAL,
+          payload: data
+        })
 
-      dispatch({
-        type: SUCESS_ANIMALS
-      })
+        dispatch({
+          type: SUCESS_ANIMALS
+        })
 
-    }).catch((error) => {
-      dispatch({
-        type: ERROR_ANIMALS
       })
-      toast.error("Erro ao cadastrar o Alergias")
-      return { error }
-    })
+      .catch((error) => {
+        dispatch({
+          type: ERROR_ANIMALS
+        })
+        toast.error("Erro ao cadastrar o Alergias")
+        return { error }
+      })
   };
 };
 
