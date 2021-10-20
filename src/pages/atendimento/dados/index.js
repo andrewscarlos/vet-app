@@ -21,4 +21,4 @@ const Prontuario = () => {
   );
 };
 
-export default Prontuario
+export default Prontuario;
