@@ -84,29 +84,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Atendimento = ({ fetchAnimals, stateReducer }) => {
+
   useEffect(async () => {
     await fetchAnimals();
   }, []);
 
   const host = "http://localhost:5001/";
-
-  let dados = "";
+  
+  
   const [fetchAnimaisPessoas, setFetchAnimais] = useState();
   const [modal, showModal] = useState(false);
+  const [animaisArray, setAnimaisArray] = useState([])
 
-  const fetchAnimalsByPessoa = async (data) => {
+  const fetchAnimalsByPessoa =  (data) => {
     const cpf = data;
-
-    const animais = API.post(`${host}pessoas/fetch`, { cpf }).then((r) => r);
+    const animais =  API.post(`${host}pessoas/fetch`, { cpf }).then((r) => r);
     return animais;
   };
 
+  
+  const setterAnimais= (animais) =>{
+    setAnimaisArray(animais)
+    showModal(true)
+    console.log('animaisArray',animaisArray)
+  }
+
   const onSubmit = async (ev) => {
     ev.preventDefault();
-    dados = await fetchAnimalsByPessoa(fetchAnimaisPessoas);
-  
-    dados = dados.data.animais
-    showModal(true)
+    const { data } = await fetchAnimalsByPessoa(fetchAnimaisPessoas);
+    setterAnimais(data.animais)
   };
 
   const classes = useStyles();
@@ -154,11 +160,8 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
                 </Button>
               </Grid>
             </Grid>
-            {modal ? (
-              <Paper className={classes.divCard}>
-                  {dados.map((el) => <CardAnimal data={el}></CardAnimal>)}
-              </Paper>
-            ) : null}
+           
+            {modal ? <Paper className={classes.divCard}> {animaisArray.map((el) => <CardAnimal data={el}></CardAnimal>) }</Paper> : null }
 
             <Box pt={4}>{/* <Footer /> */}</Box>
           </Container>
