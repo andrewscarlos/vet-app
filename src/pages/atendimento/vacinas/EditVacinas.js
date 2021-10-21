@@ -46,7 +46,7 @@ const EditProntuario = ({ updatedVacinas, userReducer, data }) => {
   const veterinario = userReducer.user.nome;
   const [descricao, setDescricao] = useState(data.descricao || "");
   const [vacina, setVacina] = useState(data.vacina || "");
-  console.log('data',data)
+  
   const history = useHistory();
 
   const onSubmit = async (ev) => {

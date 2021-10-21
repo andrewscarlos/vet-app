@@ -9,7 +9,8 @@ import Prontuario from './prontuario';
 
 const useStyles = makeStyles((theme) => ({
     Card: {
-        width: '200px'
+        width: '220px',
+        margin: 8
     }
 }));
 
@@ -18,18 +19,19 @@ const bull = (
         component="span"
         sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
     >
-        •
+        
     </Box>
 );
 const CardAnimal = ({ data }) => {
+    
     const history = useHistory()
-    const { nome, idade, raca, especie, sexo, pelagem, temperamento, peso, _id:id } = data;
+    const { nome, idade, raca, especie, sexo, pelagem, temperamento, peso, _id:id  } = data;
+    
     const onClick = () => {
         history.push(`pets/prontuario/${id}`)
     };
 
     const classes = useStyles();
-
 
     return (
         <Card className={classes.Card}>

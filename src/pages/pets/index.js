@@ -161,7 +161,7 @@ const ValidarCPF = (cpf)=> {
   }, [cepConsumer]);
 
   useEffect(async () => {
-    console.log('cpfConsumer', cpfConsumer)
+    
     if(cpfConsumer !== null){
       cpfConsumer = cpfConsumer.replace(/[^\d]+/g,'');
       if (cpfConsumer.length == 11 ) {

@@ -11,6 +11,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import { createProntuario } from '../../../redux/actions'
 import { ToastContainer } from 'react-toastify';
+
+import { useDispatch, useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,13 +46,9 @@ const Prontuario = ({ createProntuario, userReducer }) => {
 
 
     const { id } = useParams();
-    const veterinario = userReducer.user.nome
-    
-
-    
-    
+   // const veterinario = userReducer.user.nome
+    const veterinario = useSelector(state => state.user.userLog.name)
     const history = useHistory();
-    
     const [values, setValues] = useState({
         idAnimal: id,
         veterinario,

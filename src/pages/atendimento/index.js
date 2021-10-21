@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     overflow: "auto",
+    marginTop: 64
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -48,8 +49,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     display: "flex",
     overflow: "auto",
-    flexDirection: "row",
-    flexWrap: "nowrap",
+    flexDirection: "column",
   },
   fixedHeight: {
     height: 300,
@@ -66,10 +66,11 @@ const useStyles = makeStyles((theme) => ({
   },
   divCard: {
     display: "flex",
-    overflowX: "scroll",
+    overflow: "scroll",
     flexDirection: "row",
     flexWrap: "nowrap",
     padding: theme.spacing(2),
+    marginTop: 20
   },
   findCpf: {
     width: "20px",
@@ -78,8 +79,8 @@ const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     display: "flex",
-    border: "solid 1px black",
-    alignItems: "center",
+    marginLeft: 280,
+    marginTop: 15
   },
 }));
 
@@ -95,6 +96,7 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
   const [fetchAnimaisPessoas, setFetchAnimais] = useState();
   const [modal, showModal] = useState(false);
   const [animaisArray, setAnimaisArray] = useState([])
+  
 
   const fetchAnimalsByPessoa =  (data) => {
     const cpf = data;
@@ -106,19 +108,19 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
   const setterAnimais= (animais) =>{
     setAnimaisArray(animais)
     showModal(true)
-    console.log('animaisArray',animaisArray)
-  }
+  };
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
     const { data } = await fetchAnimalsByPessoa(fetchAnimaisPessoas);
     setterAnimais(data.animais)
   };
-
+  
+  
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} >
       <div className={classes.root}>
         <CssBaseline />
         <Menu msg="Atendimento" />
@@ -127,7 +129,7 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
           <Container maxWidth="lg" className={classes.container}>
             <Typography className={classes.title}>Buscar Animais</Typography>
             <Divider className={classes.hr} light="true" />
-            <Grid item sm={12} className={classes.grids}>
+            <Grid item sm={12} className={classes.wrapper}>
               <Grid container spacing={6}>
                 <Grid item xs={6} sm={6}>
                   <InputMask
@@ -163,7 +165,7 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
            
             {modal ? <Paper className={classes.divCard}> {animaisArray.map((el) => <CardAnimal data={el}></CardAnimal>) }</Paper> : null }
 
-            <Box pt={4}>{/* <Footer /> */}</Box>
+            
           </Container>
         </main>
       </div>

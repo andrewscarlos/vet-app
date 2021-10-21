@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import { fetchAnimals } from '../../../redux/actions'
 import { useHistory } from 'react-router-dom';
 
-
+import { useDispatch, useSelector } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
     seeMore: {
         marginTop: theme.spacing(3),
@@ -22,18 +22,18 @@ const useStyles = makeStyles((theme) => ({
 const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewProntuario }) => {
     
     useEffect(async()=>{
-        await fetchAnimals()
+         await fetchAnimals()  
     },[])
     const history = useHistory()
-    const animal = animalReducer.animals
+    //const animal = animalReducer.animals
+    const animal = useSelector(state => state.animals.animals)
     const redenrTable = animal.filter(el => el._id === data)
-    const classes = useStyles();
+    
     const showView = e => {
         viewProntuario(e)
     } 
     return (
         <>
-            
             <Table size="small">
                 <TableHead>
                     <TableRow>
@@ -45,6 +45,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewProntuario }) 
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    
                     {redenrTable[0].prontuarios.map((row) => (
                         <TableRow key={row._id}>
                             <TableCell>{row.data}</TableCell>
@@ -56,6 +57,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewProntuario }) 
                             
                         </TableRow>
                     ))}
+                    
                 </TableBody>
             </Table>
             

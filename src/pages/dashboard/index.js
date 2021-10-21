@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,8 @@ import Menu from '../../components/menu';
 import Chart from './chart';
 import Orders from './orders';
 import Deposits from './deposits';
+import axios from "axios";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -43,7 +45,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const API = axios.create({
+    baseURL: "http://localhost:5001",
+  });
+const host = "http://localhost:5001/";
+
+const getToday = async ()=>{
+    const { data } =  await API.get(`${host}animaistoday`).then((r) => r).catch(e => e);
+    return data
+};
 export default function Dashboard() {
+    
+
+    
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (

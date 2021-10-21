@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import clsx from 'clsx';
@@ -65,6 +65,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Prontuario = ({ animalReducer, fetchAnimals }) => {
 
+    useEffect(async () => {
+        await fetchAnimals();
+      }, []);
+      
     const history = useHistory();
     const { id } = useParams();
     const [createProntuarioButton, setCreateProntuario] = useState(false)

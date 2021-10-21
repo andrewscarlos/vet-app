@@ -27,7 +27,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
     const history = useHistory()
     const animal = animalReducer.animals
     const redenrTable = animal.filter(el => el._id === data);
-    console.log('redenrTable',redenrTable)
+    
   
     const classes = useStyles();
     const showView = e => {

@@ -224,7 +224,7 @@ export const updatedProntuario = (data) => {
 };
 
 export const updatedTratamento = (data) => {
-  console.log('data',data)
+ 
   return (dispatch) => {
     dispatch({
       type: LOAD_ANIMALS
