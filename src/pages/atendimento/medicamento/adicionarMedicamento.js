@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import { createMedicamentos } from '../../../redux/actions'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,7 +45,7 @@ const AdicionarTratamento = ({ createMedicamentos, userReducer }) => {
 
 
     const { id } = useParams();
-    const veterinario = userReducer.user.nome
+    const veterinario = useSelector(state => state.user.userInfo.user.nome)
     const history = useHistory();
     
     const [values, setValues] = useState({

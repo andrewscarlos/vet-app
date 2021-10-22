@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import { fetchAnimals } from '../../../redux/actions'
 import { useHistory } from 'react-router-dom';
 import NoteAdd from '@material-ui/icons/NoteAdd';
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
 
 const useStyles = makeStyles((theme) => ({
     seeMore: {
@@ -41,7 +43,8 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
                         <TableCell>Data</TableCell>
                         <TableCell>Vermifugos</TableCell>
                         <TableCell>Veterinário</TableCell>
-                        <TableCell></TableCell>
+                        <TableCell>1º Dose</TableCell>
+                        <TableCell>2º Dose</TableCell>
                         
                     </TableRow>
                 </TableHead>
@@ -51,6 +54,8 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
                             <TableCell>{row.data}</TableCell>
                             <TableCell>{row.vermifugo}</TableCell>
                             <TableCell>{row.veterinario}</TableCell>
+                            <TableCell>{row.primeiraDose ? <CheckBoxIcon/> : <CheckBoxOutlineBlank/>}</TableCell>
+                            <TableCell>{row.segundaDose ? <CheckBoxIcon/> : <CheckBoxOutlineBlank/> }</TableCell>
                             <TableCell>
                                <Button onClick={()=> showView(row)} > <Visibility /> </Button>
                             </TableCell>

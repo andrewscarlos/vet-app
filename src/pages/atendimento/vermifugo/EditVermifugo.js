@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import { updatedVermifugos } from "../../../redux/actions";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const EditProntuario = ({ updatedVermifugos, userReducer, data }) => {
 
   const { id } = useParams();
-  const veterinario = userReducer.user.nome;
+  const veterinario = useSelector(state => state.user.userInfo.user.nome)
   const [descricao, setDescricao] = useState(data.descricao || "");
   const [vermifugo, setVermifugo] = useState(data.vermifugo || "");
   

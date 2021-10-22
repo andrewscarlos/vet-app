@@ -47,7 +47,8 @@ const Prontuario = ({ createProntuario, userReducer }) => {
 
     const { id } = useParams();
    // const veterinario = userReducer.user.nome
-    const veterinario = useSelector(state => state.user.userLog.name)
+    const veterinario = useSelector(state => state.user.userInfo.user.nome)
+    console.log('veterinario',veterinario)
     const history = useHistory();
     const [values, setValues] = useState({
         idAnimal: id,

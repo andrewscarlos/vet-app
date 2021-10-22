@@ -25,7 +25,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewProntuario }) 
          await fetchAnimals()  
     },[])
     const history = useHistory()
-    //const animal = animalReducer.animals
+    
     const animal = useSelector(state => state.animals.animals)
     const redenrTable = animal.filter(el => el._id === data)
     
