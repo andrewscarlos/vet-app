@@ -14,6 +14,8 @@ import AdicionarMedicamentos from "./adicionarMedicamento";
 import TableMedicamento from "./tableMedicamento";
 import NoteAdd from "@material-ui/icons/NoteAdd";
 import EditMedicamento from "./EditMedimento";
+import { useSelector } from 'react-redux';
+import Permissao from '../permissaoMed';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,6 +102,8 @@ const Prontuario = () => {
     }
   };
   const classes = useStyles();
+  const permissao = useSelector(state => state.user.userInfo.user)
+  const { funcao } = permissao
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [createTratamentoButton, setCreateTratamento] = useState(false);
   const [viewTratamento, setviewTratamento] = useState(false);
@@ -108,6 +112,7 @@ const Prontuario = () => {
     setCreateTratamento(true);
   };
   return (
+    funcao === 'Administrativo' || funcao === 'Médico' ?
     <div className={classes.root}>
       <CssBaseline />
       <Menu msg="Atendimento" />
@@ -170,7 +175,7 @@ const Prontuario = () => {
           <Box pt={4}>{/* <Footer /> */}</Box>
         </Container>
       </main>
-    </div>
+    </div> :<Permissao/>
   );
 };
 

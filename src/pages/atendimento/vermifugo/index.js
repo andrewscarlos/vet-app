@@ -14,6 +14,8 @@ import AdicionarVermifugos from "./adicionarVermufugos";
 import TableVermifugos from "./TableVermifugo";
 import NoteAdd from "@material-ui/icons/NoteAdd";
 import EditVermifugos from "./EditVermifugo";
+import { useSelector } from 'react-redux';
+import Permissao from '../permissaoMed';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
 const Prontuario = () => {
   const history = useHistory();
   const { id } = useParams();
-
+  const permissao = useSelector(state => state.user.userInfo.user)
+  const { funcao } = permissao
   const onClick = (ev) => {
     const types = ev.target.innerText;
     switch (types) {
@@ -108,6 +111,7 @@ const Prontuario = () => {
     setCreateTratamento(true);
   };
   return (
+    funcao === 'Administrativo' || funcao === 'Médico' ?
     <div className={classes.root}>
       <CssBaseline />
       <Menu msg="Vermifugos" />
@@ -170,7 +174,7 @@ const Prontuario = () => {
           <Box pt={4}>{/* <Footer /> */}</Box>
         </Container>
       </main>
-    </div>
+    </div> :<Permissao/>
   );
 };
 

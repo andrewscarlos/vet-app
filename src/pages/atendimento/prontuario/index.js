@@ -16,6 +16,8 @@ import NoteAdd from '@material-ui/icons/NoteAdd';
 import AdicionarProntuario from './AdicionarPronturio'
 import { fetchAnimals } from '../../../redux/actions'
 import EditProntuario from './EditProntuario'
+import { useSelector } from 'react-redux';
+import Permissao from '../permissaoMed';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,7 +70,8 @@ const Prontuario = ({ animalReducer, fetchAnimals }) => {
     useEffect(async () => {
         await fetchAnimals();
       }, []);
-      
+      const permissao = useSelector(state => state.user.userInfo.user)
+      const { funcao } = permissao
     const history = useHistory();
     const { id } = useParams();
     const [createProntuarioButton, setCreateProntuario] = useState(false)
@@ -120,6 +123,7 @@ const Prontuario = ({ animalReducer, fetchAnimals }) => {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (
+        funcao === 'Administrativo' || funcao === 'Médico' ?
         <div className={classes.root}>
             <CssBaseline />
             <Menu msg="Atendimento" />
@@ -166,7 +170,7 @@ const Prontuario = ({ animalReducer, fetchAnimals }) => {
                     </Box>
                 </Container>
             </main>
-        </div>
+        </div>:<Permissao/>
     );
 };
 

@@ -12,6 +12,7 @@ import Chart from './chart';
 import Orders from './orders';
 import Deposits from './deposits';
 import axios from "axios";
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,8 +57,8 @@ const getToday = async ()=>{
 };
 export default function Dashboard() {
     
-
-    
+    const permissao = useSelector(state => state.user.userInfo.user)
+     console.log('permissao',permissao)
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (

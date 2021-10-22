@@ -10,10 +10,11 @@ import {
 
   
   const initialState = {
-    userLog: userAuthentication ? JSON.parse(userAuthentication) : {} ,
+    userInfo: userAuthentication ? JSON.parse(userAuthentication) : {} ,
     success: false,
     error: false,
     loading: false,
+    isLoggd: false
   };
   
   const user = (state = initialState, action) => {
@@ -23,7 +24,7 @@ import {
         const { payload } = action;
         return {
           ...state,
-          ...payload,
+          userInfo:payload,
         };
       }
   

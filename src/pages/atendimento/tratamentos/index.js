@@ -13,6 +13,8 @@ import AdicionarTratamento from "./cadastrarTratamento";
 import TableTratamento from "./TratamentoTable";
 import NoteAdd from "@material-ui/icons/NoteAdd";
 import EditTratamento from "./EdittTratamento";
+import { useSelector } from 'react-redux';
+import Permissao from '../permissaoMed';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,7 +108,11 @@ const Prontuario = () => {
     setCreateTratamento(false);
     setCreateTratamento(true);
   };
+  const permissao = useSelector(state => state.user.userInfo.user)
+  const { funcao } = permissao
+
   return (
+    funcao === 'Administrativo' || funcao === 'Médico' ?
     <div className={classes.root}>
       <CssBaseline />
       <Menu msg="Atendimento" />
@@ -169,7 +175,7 @@ const Prontuario = () => {
           <Box pt={4}>{/* <Footer /> */}</Box>
         </Container>
       </main>
-    </div>
+    </div> :<Permissao/>
   );
 };
 

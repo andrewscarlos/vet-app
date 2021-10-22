@@ -16,6 +16,7 @@ import Tratamentos from './pages/atendimento/tratamentos';
 import Vacinas from './pages/atendimento/vacinas';
 import Vermifugo from './pages/atendimento/vermifugo';
 
+import AdmRoute from './components/AdmRoute'
 
 import AddPets from './pages/pets/pets.adicionar'
 const Router = () => {
@@ -27,7 +28,6 @@ const Router = () => {
                 
                 <Route path="/atendimento" exact component={Atendimento} /> 
                 <Route path="/usuarios" exact component={Usuarios} /> 
-                
                 <Route path="/pets" exact component={Pets} /> 
                 <Route path="/pets/adicionar" exact component={AddPets} /> 
 

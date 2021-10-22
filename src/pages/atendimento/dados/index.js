@@ -9,6 +9,8 @@ import Paper from "@material-ui/core/Paper";
 import Menu from "../../../components/menu";
 import Button from "@material-ui/core/Button";
 import { useHistory, useParams } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import Permissao from '../permissaoMed';
 
 import EditDados from "./EditDados";
 
@@ -60,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
 const Prontuario = () => {
   const history = useHistory();
   const { id } = useParams();
-
+  const permissao = useSelector(state => state.user.userInfo.user)
+  const { funcao } = permissao
   const onClick = (ev) => {
     const types = ev.target.innerText;
     switch (types) {
@@ -100,6 +103,7 @@ const Prontuario = () => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
   return (
+    funcao === 'Administrativo' || funcao === 'Médico' ?
     <div className={classes.root}>
       <CssBaseline />
       <Menu msg="Vermifugos" />
@@ -142,7 +146,7 @@ const Prontuario = () => {
           <Box pt={4}>{/* <Footer /> */}</Box>
         </Container>
       </main>
-    </div>
+    </div>:<Permissao/>
   );
 };
 
