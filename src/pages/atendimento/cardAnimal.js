@@ -23,8 +23,8 @@ const bull = (
     </Box>
 );
 const CardAnimal = ({ data }) => {
-    
     const history = useHistory()
+    
     const { nome, idade, raca, especie, sexo, pelagem, temperamento, peso, _id:id  } = data;
     
     const onClick = () => {

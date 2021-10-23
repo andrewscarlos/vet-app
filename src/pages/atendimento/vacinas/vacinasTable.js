@@ -44,7 +44,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
                         <TableCell>Vacinas</TableCell>
                         <TableCell>Veterinário</TableCell>
                         <TableCell>1º Dose</TableCell>
-                        <TableCell>1º Dose</TableCell>
+                        <TableCell>2º Dose</TableCell>
                         
                     </TableRow>
                 </TableHead>
