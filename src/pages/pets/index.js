@@ -103,9 +103,18 @@ const Animais = ({
     setValues({ ...values, [name]: value });
   }, [values])
 
+  const { success, loading } = stateReducer;
+  const history = useHistory();
+  
   const onSubmit = useCallback((env) => {
     env.preventDefault();
     creatPessoa(values);
+    if (success) {
+      const timer = setTimeout(() => {
+        history.push("/dashboard");
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
 
   }, [creatPessoa, values])
 

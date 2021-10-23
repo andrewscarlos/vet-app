@@ -18,6 +18,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputMask from "react-input-mask";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const API = axios.create({
   baseURL: "http://localhost:5001",
@@ -92,7 +93,7 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
 
   const host = "http://localhost:5001/";
   
-  
+  const history = useHistory();
   const [fetchAnimaisPessoas, setFetchAnimais] = useState();
   const [modal, showModal] = useState(false);
   const [animaisArray, setAnimaisArray] = useState([])
@@ -104,16 +105,18 @@ const Atendimento = ({ fetchAnimals, stateReducer }) => {
     return animais;
   };
 
-  
+  const { success, loading } = stateReducer;
   const setterAnimais= (animais) =>{
     setAnimaisArray(animais)
     showModal(true)
   };
-
+  
   const onSubmit = async (ev) => {
     ev.preventDefault();
     const { data } = await fetchAnimalsByPessoa(fetchAnimaisPessoas);
     setterAnimais(data.animais)
+     
+   
   };
   
   

@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const AdicionarAnimals = ({ creatAnimal }) => {
+const AdicionarAnimals = ({ creatAnimal, stateReducer }) => {
 
     const [values, setValues] = useState();
     const [created, setCreated] = useState(false);
@@ -78,10 +78,19 @@ const AdicionarAnimals = ({ creatAnimal }) => {
         setEspecie(selected)
     };
 
+    const { success } = stateReducer;
+    console.log('stateReducer',stateReducer)
+   
     const onSubmit = async (ev) => {
         ev.preventDefault();
         creatAnimal(values)
         setCreated(true)
+         if (success) {
+            const timer = setTimeout(() => {
+              history.push("/pets");
+            }, 1000);
+            return () => clearTimeout(timer);
+          }
     };
     const onChange = (ev) => {
         const { name, value } = ev.target;
@@ -267,7 +276,7 @@ const AdicionarAnimals = ({ creatAnimal }) => {
 
 
 const mapStateToProps = state => ({
-    stateReducer: state.user
+    stateReducer: state.animals,
 });
 
 const mapDispatch = dispatch => bindActionCreators({

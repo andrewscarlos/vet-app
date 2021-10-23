@@ -101,7 +101,7 @@ const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
     if (success) {
       const timer = setTimeout(() => {
         history.push("/dashboard");
-      }, 10);
+      }, 1000);
       return () => clearTimeout(timer);
     }
   };

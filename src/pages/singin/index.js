@@ -43,7 +43,7 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
         email: "",
         password: "",
     };
-    console.log('stateReducer',stateReducer)
+    
     const { isLoggd, loading } = stateReducer;
     const history = useHistory();
     const [values, setValues] = useState(initialState);
