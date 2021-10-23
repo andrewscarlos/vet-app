@@ -5,10 +5,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocalHospital from '@material-ui/icons/LocalHospital';
-import Pets from '@material-ui/icons/Pets'
+import Pets from '@material-ui/icons/Pets';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+
 
 export const mainListItems = (
     <div>
@@ -56,8 +57,10 @@ export const secondaryListItems = (
         </Link>
 
         <Link to="/" style={{ textDecoration: 'none' }}>
-            <ListItem button>
+            
+            <ListItem  button>
                 <ListItemIcon>
+               
                     <ExitToApp />
                 </ListItemIcon>
                 <ListItemText primary="Sair" />

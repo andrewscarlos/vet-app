@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import { fetchAnimals } from '../../../redux/actions'
 import { useHistory } from 'react-router-dom';
 import NoteAdd from '@material-ui/icons/NoteAdd';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     seeMore: {
@@ -25,7 +26,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
         await fetchAnimals()
     },[])
     const history = useHistory()
-    const animal = animalReducer.animals
+    const animal = useSelector(state => state.animals.animals)
     const redenrTable = animal.filter(el => el._id === data);
     
   

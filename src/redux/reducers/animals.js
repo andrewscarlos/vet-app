@@ -1,11 +1,15 @@
 import { FETCH_ANIMALS, CREATE_ANIMAL, SUCESS_ANIMALS, LOAD_ANIMALS, ERROR_ANIMALS } from "../constants";
 
+const animais = localStorage.getItem("persist:root") || null
+
 const initialState = {
-  animals: {},
+  animals: animais ? JSON.parse(animais) : {} ,
   success: false,
   error: false,
   loading: false,
 };
+
+
 
 const animals = (state = initialState, action) => {
   switch (action.type) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,7 +21,7 @@ import { bindActionCreators } from "redux";
 import { createUser, stateReducer, stateAll } from "../../redux/actions";
 import Permissao from './Permissao'
 import { useSelector } from 'react-redux'
-
+import { ValidarCPF } from "./../../utils/cpf"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,22 +58,41 @@ const useStyles = makeStyles((theme) => ({
 const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
 
   const permissao = useSelector(state => state.user.userInfo.user)
-  const { funcao } = permissao
+  const { funcao:funcPermissao } = permissao
   
   const history = useHistory();
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const { success, loading } = stateReducer;
-  const [values, setValues] = useState();
+  const [values, setValues] = useState({
+    nome: '',
+    cpf: '',
+    telefone: '',
+    crmv: '',
+    funcao:'',
+    email: '',
+    senha: ''
+  });
 
-  const goToDashboard = ()=>{
-    history.push("/dashboard");
-  }
-  const onChange = (ev) => {
+  const { nome, cpf, email, telefone, crmv, funcao, senha } = values
+  const onChange = useCallback((ev) => {
     const { name, value } = ev.target;
     setValues({ ...values, [name]: value });
-  };
+  }, [values])
+
+  let cpfConsumer = cpf ? cpf : null;
+  useEffect(async () => {
+    if(cpfConsumer !== null){
+      cpfConsumer = cpfConsumer.replace(/[^\d]+/g,'');
+      if (cpfConsumer.length == 11 ) {
+        const cpfValidado = ValidarCPF(cpfConsumer)
+        if(!cpfValidado){
+          toast.error("CPF invalido !")
+        }
+      }
+    }
+  }, [cpfConsumer]);
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
@@ -90,7 +109,7 @@ const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
 
 
   return (
-    funcao === 'Administrativo' ?
+    funcPermissao === 'Administrativo' ?
   <form onSubmit={onSubmit}>
     <div className={classes.root}>
       <CssBaseline />

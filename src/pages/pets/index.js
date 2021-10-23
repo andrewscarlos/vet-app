@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
+import { Link } from "react-router-dom"
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -17,6 +18,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { fetchAnimals, creatPessoa } from "../../redux/actions";
+import { fetchCep } from "./../../utils/cep"
+import { ValidarCPF } from "./../../utils/cpf"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,104 +67,26 @@ const Animais = ({
   stateAll,
 }) => {
 
-  const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  const history = useHistory();
-  const [values, setValues] = useState({});
+  const classes = useStyles()
+  
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
+  const [values, setValues] = useState({
+    nome: "",
+    cpf: "",
+    email: "",
+    telefone: "",
+    sus: "",
+    cep: "",
+    endereco: "",
+    bairro: "",
+    numero: "",
+    uf: "",
+  });
 
-  const [nome, setNome] = useState();
-  const [cpf, setCPF] = useState();
-  const [email, setEmail] = useState();
-  const [telefone, setTelefone] = useState();
-  const [sus, setSus] = useState();
-
-  const [cep, setCep] = useState();
-
-  const [endereco, setEndereco] = useState();
-  const [bairro, setBairro] = useState();
-  const [numero, setNumero] = useState();
-  const [uf, setUf] = useState();
-
-  const showPetCadastro = () => {
-    history.push("/pets/adicionar");
-  };
-
-
-  const onChange = (ev) => {
-    const { name, value } = ev.target;
-    setValues({ ...values, [name]: value });
-  };
-
-const ValidarCPF = (cpf)=> {	
-	cpf = cpf.replace(/[^\d]+/g,'');	
-	if(cpf == '') return false;		
-	if (cpf.length != 11 || 
-		cpf == "00000000000" || 
-		cpf == "11111111111" || 
-		cpf == "22222222222" || 
-		cpf == "33333333333" || 
-		cpf == "44444444444" || 
-		cpf == "55555555555" || 
-		cpf == "66666666666" || 
-		cpf == "77777777777" || 
-		cpf == "88888888888" || 
-		cpf == "99999999999")
-			return false;		
-
-	let add = 0;	
-	for (let i=0; i < 9; i ++)		
-		add += parseInt(cpf.charAt(i)) * (10 - i);	
-		let rev = 11 - (add % 11);	
-		if (rev == 10 || rev == 11)		
-			rev = 0;	
-		if (rev != parseInt(cpf.charAt(9)))		
-			return false;		
-	add = 0;	
-	for (let i = 0; i < 10; i ++)		
-		add += parseInt(cpf.charAt(i)) * (11 - i);	
-	rev = 11 - (add % 11);	
-	if (rev == 10 || rev == 11)	
-		rev = 0;	
-	if (rev != parseInt(cpf.charAt(10)))
-		return false;		
-	return true;   
-};
-
-
-  const fetchCep = async (data) => {
-    const options = {
-      method: "GET",
-      mode: "cors",
-      cache: "default",
-    };
-    const cep = await fetch(
-      `https://viacep.com.br/ws/${data}/json/`,
-      options
-    ).then((resp) => {
-      return resp.json();
-    });
-    return cep;
-  };
-
-  let cepConsumer = cep ? cep : null;
+  
+  const { nome, cpf, email, telefone, sus, cep, endereco, bairro, numero, uf } = values
   let cpfConsumer = cpf ? cpf : null;
-
   useEffect(async () => {
-    if (cepConsumer != null && cepConsumer.length >= 8) {
-      cepConsumer = cepConsumer.replace("-", "");
-      const cep = await fetchCep(cepConsumer);
-
-      if (cep) {
-        setUf(cep.uf);
-        setBairro(cep.bairro);
-        setNumero();
-        setEndereco(cep.logradouro);
-      }
-    }
-  }, [cepConsumer]);
-
-  useEffect(async () => {
-    
     if(cpfConsumer !== null){
       cpfConsumer = cpfConsumer.replace(/[^\d]+/g,'');
       if (cpfConsumer.length == 11 ) {
@@ -171,31 +96,34 @@ const ValidarCPF = (cpf)=> {
         }
       }
     }
-    
-    
-    
   }, [cpfConsumer]);
 
-  const onSubmit = async (ev) => {
-    ev.preventDefault();
-    creatPessoa({
-      nome,
-      cpf,
-      email,
-      telefone,
-      sus,
-      cep,
-      endereco,
-      bairro,
-      numero,
-      uf
-    });
+  const onChange = useCallback((ev) => {
+    const { name, value } = ev.target;
+    setValues({ ...values, [name]: value });
+  }, [values])
 
-    const timer = setTimeout(() => {
-      history.push("/dashboard");
-    }, 1000);
-    return () => clearTimeout(timer);
-  };
+  const onSubmit = useCallback((env) => {
+    env.preventDefault();
+    creatPessoa(values);
+
+  }, [creatPessoa, values])
+
+  const findCep = useCallback(() => {
+    if (cep.length && cep.length >= 8) {
+      (async () => {
+        const response = await fetchCep(cep.replace("-", ""))
+        if (response) {
+          setValues({
+            ...values,
+            uf: response.uf,
+            bairro: response.bairro,
+            endereco: response.logradouro,
+          })
+        }
+      })()
+    }
+  }, [cep, values])
 
  
 
@@ -206,184 +134,176 @@ const ValidarCPF = (cpf)=> {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <h1>Responsável</h1>
-          <form onSubmit={onSubmit}>
-            <Grid item sm={10}>
-              <Paper className={fixedHeightPaper}>
-                <Grid container spacing={4}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      id="nome"
-                      name="nome"
-                      label="Nome"
-                      fullWidth
-                      value={nome}
-                      onChange={(e) => setNome(e.target.value)}
-                      autoComplete="shipping address-line1"
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <InputMask
-                      mask="999.999.999-99"
-                      maskChar=" "
-                      onChange={(e) => setCPF(e.target.value)}
-                      id="cpf"
-                      name="cpf"
-                      value={cpf}
-                    >
-                      {() => (
-                        <TextField
-                          fullWidth
-                          className={classes.inputText}
-                          label="CPF"
-                          required
-                          name="cpf"
-                        />
-                      )}
-                    </InputMask>
-                  </Grid>
+        <h1>Responsável</h1>
+        <form onSubmit={onSubmit}>
+          <Grid item sm={12}>
+            <Paper className={fixedHeightPaper}>
+              <Grid container spacing={4}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    id="nome"
+                    name="nome"
+                    label="Nome"
+                    fullWidth
+                    value={nome}
+                    autoComplete="shipping address-line1"
+                    onChange={onChange}
+                  />
                 </Grid>
 
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      onChange={onChange}
-                      type="email"
-                      id="email"
-                      name="email"
-                      label="Email"
-                      fullWidth
-                      onChange={(e) => setEmail(e.target.value)}
-                      autoComplete="shipping address-line1"
-                      value={email}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={6}>
-                    <InputMask
-                      mask="(99) - 9 9999-9999"
-                      maskChar=" "
-                      onChange={onChange}
-                      id="celular"
-                      name="telefone"
-                      value={telefone}
-                      onChange={(e) => setTelefone(e.target.value)}
-                    >
-                      {() => (
-                        <TextField
-                          fullWidth
-                          className={classes.inputText}
-                          label="Celular"
-                          name="telefone"
-                        />
-                      )}
-                    </InputMask>
-                  </Grid>
+                <Grid item xs={12} sm={6}>
+                  <InputMask
+                    mask="999.999.999-99"
+                    maskChar=" "
+                    id="cpf"
+                    name="cpf"
+                    value={cpf}
+                    onChange={onChange}
+                  >
+                    {() => (
+                      <TextField
+                        fullWidth
+                        className={classes.inputText}
+                        label="CPF"
+                        required
+                        name="cpf"
+                      />
+                    )}
+                  </InputMask>
                 </Grid>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      onChange={(e) => setSus(e.target.value)}
-                      id="sus"
-                      name="sus"
-                      label="Carteirinha do SUS"
-                      fullWidth
-                      value={sus}
-                    />
-                  </Grid>
+              </Grid>
 
-                  <Grid item xs={12} sm={6}>
-                    <InputMask
-                      mask="99999-999"
-                      maskChar=" "
-                      onChange={(e) => setCep(e.target.value)}
-                      id="cep"
-                      name="cep"
-                      value={cep}
-                    >
-                      {() => (
-                        <TextField
-                          fullWidth
-                          className={classes.inputText}
-                          label="CEP"
-                          required
-                          name="cep"
-                        />
-                      )}
-                    </InputMask>
-                  </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    type="email"
+                    id="email"
+                    name="email"
+                    label="Email"
+                    fullWidth
+                    autoComplete="shipping address-line1"
+                    value={email}
+                    onChange={onChange}
+                  />
                 </Grid>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      id="endereco"
-                      name="endereco"
-                      label="Endereço"
-                      fullWidth
-                      value={endereco}
-                      onChange={(e) => setEndereco(e.target.value)}
 
-                      
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      id="bairro"
-                      name="bairro"
-                      label="Bairro"
-                      fullWidth
-                      value={bairro}
-                      onChange={(e) => setBairro(e.target.value)}
-                    />
-                  </Grid>
+                <Grid item xs={12} sm={6}>
+                  <InputMask
+                    mask="(99) - 9 9999-9999"
+                    maskChar=" "
+                    id="celular"
+                    name="telefone"
+                    value={telefone}
+                    onChange={onChange}
+                  >
+                    {() => (
+                      <TextField
+                        fullWidth
+                        className={classes.inputText}
+                        label="Celular"
+                        name="telefone"
+                      />
+                    )}
+                  </InputMask>
                 </Grid>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      id="numero"
-                      name="numero"
-                      label="numero"
-                      value={numero}
-                      
-                      fullWidth
-                      onChange={(e) => setNumero(e.target.value)}
-                     
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      id="uf"
-                      name="uf"
-                      label="UF"
-                      value={uf}
-                      fullWidth
-                      onChange={(e) => setUf(e.target.value)}
-                      autoComplete="shipping address-line1"
-                    />
-                  </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="sus"
+                    name="sus"
+                    label="Carteirinha do SUS"
+                    fullWidth
+                    value={sus}
+                    onChange={onChange}
+                  />
+                </Grid>
 
-                  <Grid item xs={12} sm={6}>
-                    <Button variant="contained" type="submit" color="primary">
-                      Salvar
-                    </Button>
+                <Grid item xs={12} sm={6}>
+                  <InputMask
+                    mask="99999-999"
+                    maskChar=" "
+                    id="cep"
+                    name="cep"
+                    value={cep}
+                    onChange={onChange}
+                    onBlur={findCep}
+                  >
+                    {() => (
+                      <TextField
+                        fullWidth
+                        className={classes.inputText}
+                        label="CEP"
+                        required
+                        name="cep"
+                      />
+                    )}
+                  </InputMask>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="endereco"
+                    name="endereco"
+                    label="Endereço"
+                    fullWidth
+                    value={endereco}
+                    onChange={onChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="bairro"
+                    name="bairro"
+                    label="Bairro"
+                    fullWidth
+                    value={bairro}
+                    onChange={onChange}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    id="numero"
+                    name="numero"
+                    label="numero"
+                    value={numero}
+                    fullWidth
+                    onChange={onChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="uf"
+                    name="uf"
+                    label="UF"
+                    value={uf}
+                    fullWidth
+                    autoComplete="shipping address-line1"
+                    onChange={onChange}
+                  />
+                </Grid>
 
-                    <Button
-                      className={classes.pets}
-                      onClick={showPetCadastro}
-                      variant="contained"
-                      color="primary"
-                    >
+                <Grid item xs={12} sm={6}>
+                  <Button variant="contained" type="submit" color="primary">
+                    Salvar
+                  </Button>
+
+                  <Link to={`/pets/adicionar`}>
+                    <Button className={classes.pets} variant="contained" color="primary" >
                       <Pets />
                     </Button>
-                  </Grid>
+                  </Link>
                 </Grid>
-              </Paper>
-            </Grid>
-          </form>
-        </Container>
+              </Grid>
+            </Paper>
+          </Grid>
+        </form>
+      </Container>
       </main>
       <ToastContainer />
     </div>

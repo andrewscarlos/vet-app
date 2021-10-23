@@ -11,7 +11,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import { createProntuario } from '../../../redux/actions'
 import { ToastContainer } from 'react-toastify';
-
+import {  Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -66,6 +66,7 @@ const Prontuario = ({ createProntuario, userReducer }) => {
         createProntuario(values)
 
         const timer = setTimeout(() => {
+            
             history.push('/dashboard')
         }, 1000);
         return () => clearTimeout(timer);

@@ -13,6 +13,9 @@ import Orders from './orders';
 import Deposits from './deposits';
 import axios from "axios";
 import { useSelector } from 'react-redux'
+import { exitPessoa } from '../../redux/actions';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,10 +58,14 @@ const getToday = async ()=>{
     const { data } =  await API.get(`${host}animaistoday`).then((r) => r).catch(e => e);
     return data
 };
-export default function Dashboard() {
+const Dashboard = ({exitPessoa})=> {
     
-    const permissao = useSelector(state => state.user.userInfo.user)
-     console.log('permissao',permissao)
+    const permissao = useSelector(state => state.user)
+    
+    useEffect(()=>{
+        exitPessoa()
+    },[])
+    
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (
@@ -95,3 +102,19 @@ export default function Dashboard() {
         </div >
     );
 }
+
+const mapStateToProps = (state) => ({
+    stateReducer: state.animals,
+    stateReducerUser: state.user,
+    stateAll: state,
+  });
+
+const mapDispatch = (dispatch) =>
+  bindActionCreators(
+    {
+        exitPessoa,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatch)(Dashboard);

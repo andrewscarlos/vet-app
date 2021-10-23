@@ -43,8 +43,8 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
         email: "",
         password: "",
     };
-
-    const { success, loading } = stateReducer;
+    console.log('stateReducer',stateReducer)
+    const { isLoggd, loading } = stateReducer;
     const history = useHistory();
     const [values, setValues] = useState(initialState);
 
@@ -54,13 +54,13 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
     };
 
     useEffect(() => {
-        if (success) {
+        if (isLoggd) {
             const timer = setTimeout(() => {
                 history.push('/dashboard')
             }, 1000);
             return () => clearTimeout(timer);
         }
-    }, [success]);
+    }, [isLoggd]);
 
     const onChange = (ev) => {
         const { name, value } = ev.target;

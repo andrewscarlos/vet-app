@@ -13,7 +13,8 @@ import {
   CREATE_ANIMAL,
   LOAD_ANIMALS,
   SUCESS_ANIMALS,
-  ERROR_ANIMALS
+  ERROR_ANIMALS,
+  EXIT_PESSOA
 
 } from "../constants";
 
@@ -48,6 +49,15 @@ export const fetchAnimals = () => {
           type: ERROR_ANIMALS
         })
       ));
+  };
+};
+
+export const exitPessoa = () => {
+  
+  return (dispatch) => {
+    dispatch({
+      type: EXIT_PESSOA
+    });
   };
 };
 
@@ -87,7 +97,7 @@ export const createUser = (data) => {
       type: LOAD_USER
     })
     API.post(`${host}register`, { ...data }).then(({ data }) => {
-      toast.success("Animal cadastrado com sucesso")
+      toast.success("Usuario cadastrado com sucesso")
       dispatch({
         type: CREATE_USER,
         payload: data

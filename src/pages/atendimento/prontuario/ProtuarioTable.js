@@ -11,8 +11,8 @@ import Visibility from '@material-ui/icons/Visibility'
 import Button from '@material-ui/core/Button';
 import { fetchAnimals } from '../../../redux/actions'
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
     seeMore: {
         marginTop: theme.spacing(3),

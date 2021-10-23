@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
-
+import { useDispatch, useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
     seeMore: {
         marginTop: theme.spacing(3),
@@ -27,7 +27,7 @@ const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) 
         await fetchAnimals()
     },[])
     const history = useHistory()
-    const animal = animalReducer.animals
+    const animal = useSelector(state => state.animals.animals)
     const redenrTable = animal.filter(el => el._id === data)
    
     const classes = useStyles();
