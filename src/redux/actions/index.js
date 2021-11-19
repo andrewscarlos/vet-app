@@ -14,7 +14,8 @@ import {
   LOAD_ANIMALS,
   SUCESS_ANIMALS,
   ERROR_ANIMALS,
-  EXIT_PESSOA
+  EXIT_PESSOA,
+  FETCH_PESSOAS
 
 } from "../constants";
 
@@ -51,6 +52,34 @@ export const fetchAnimals = () => {
       ));
   };
 };
+
+
+export const fetchUsuarios = () => {
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_PESSOA
+    });
+
+    API.get("/register/all")
+      .then(res => {
+        const { data } = res
+        dispatch({
+          type: FETCH_PESSOAS,
+          payload: data,
+        });
+        dispatch({
+          type: SUCESS_PESSOA
+        })
+      })
+      .catch(() => (
+
+        dispatch({
+          type: ERROR_PESSOA
+        })
+      ));
+  };
+};
+
 
 export const exitPessoa = () => {
   
@@ -233,6 +262,21 @@ export const updatedProntuario = (data) => {
   };
 };
 
+
+
+export const updatedUsuario = (data) => {
+  
+  return () => {
+
+    API.patch(`${host}userupdate`, { ...data }).then(({ data }) => {
+      toast.success("Usuario Atualizado com sucesso")
+    }).catch((error) => {
+      
+      toast.error("Erro ao Atualizar o Usuario")
+      return { error }
+    })
+  };
+};
 export const updatedTratamento = (data) => {
  
   return (dispatch) => {

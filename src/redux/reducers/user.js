@@ -5,6 +5,7 @@ import {
   AUTHETICATE_USER,
   CREATE_USER,
   EXIT_PESSOA,
+  FETCH_PESSOAS,
 } from "../constants";
 
 const userAuthentication = localStorage.getItem("user@authentication") || null;
@@ -15,6 +16,7 @@ const initialState = {
   error: false,
   loading: false,
   isLoggd: false,
+  fetchPessoas: [],
 };
 
 const user = (state = initialState, action) => {
@@ -27,7 +29,13 @@ const user = (state = initialState, action) => {
         userInfo: payload,
       };
     }
-
+    case FETCH_PESSOAS: {
+      const { payload } = action;
+      return {
+        ...state,
+        fetchPessoas: payload,
+      };
+    }
     case LOAD_USER: {
       return {
         ...state,

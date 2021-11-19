@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,9 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Visibility from '@material-ui/icons/Visibility'
 import Button from '@material-ui/core/Button';
-import { fetchAnimals } from '../../../redux/actions'
+import { fetchUsuarios } from '../../redux/actions'
 import { useHistory } from 'react-router-dom';
-import NoteAdd from '@material-ui/icons/NoteAdd';
 import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,45 +19,45 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ProntuarioTable = ({ fetchAnimals, data, animalReducer, viewTratamento }) => {
+const ProntuarioTable = ({ fetchUsuarios, data, animalReducer, viewProntuario }) => {
     
     useEffect(async()=>{
-        await fetchAnimals()
+         await fetchUsuarios()  
     },[])
-    
     const history = useHistory()
-    const animal = useSelector(state => state.animals.animals)
-    const redenrTable = animal.filter(el => el._id === data);
     
-    const classes = useStyles();
+    const pessoas = useSelector(state => state.user.fetchPessoas)
+    
+    
     const showView = e => {
-        viewTratamento(e)
+        viewProntuario(e)
     } 
     return (
         <>
-            
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Data</TableCell>
-                        <TableCell>Alergias</TableCell>
-                        <TableCell>Veterinário</TableCell>
+                        <TableCell>Nome</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Função</TableCell>
                         <TableCell></TableCell>
                         
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {redenrTable[0].alergias.map((row) => (
+                    
+                    {pessoas.map((row) => (
                         <TableRow key={row._id}>
-                            <TableCell>{row.data}</TableCell>
-                            <TableCell>{row.alergias}</TableCell>
-                            <TableCell>{row.veterinario}</TableCell>
+                            <TableCell>{row.nome}</TableCell>
+                            <TableCell>{row.email}</TableCell>
+                            <TableCell>{row.funcao}</TableCell>
                             <TableCell>
                                <Button onClick={()=> showView(row)} > <Visibility /> </Button>
                             </TableCell>
                             
                         </TableRow>
                     ))}
+                    
                 </TableBody>
             </Table>
             
@@ -73,7 +72,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatch = dispatch => bindActionCreators({
-    fetchAnimals
+    fetchUsuarios
 }, dispatch);
 
 

@@ -76,7 +76,7 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Entrar
                     </Typography>
                     <form className={classes.form} noValidate onSubmit={onSubmit}>
                         <TextField
@@ -85,7 +85,7 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Email"
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -98,14 +98,14 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
                             fullWidth
                             onChange={onChange}
                             name="password"
-                            label="Password"
+                            label="Senha"
                             type="password"
                             id="password"
                             autoComplete="current-password"
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
+                            label="Lembrar-me"
                         />
                        
                             <Button
@@ -116,7 +116,7 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
                                 className={classes.submit}
                                 type="submit"
                             >
-                                {loading ? ('loading'): ('SingIn')}
+                                {loading ? ('loading'): ('Entrar')}
                             </Button>
                         
                     </form>

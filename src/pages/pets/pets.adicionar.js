@@ -79,7 +79,7 @@ const AdicionarAnimals = ({ creatAnimal, stateReducer }) => {
     };
 
     const { success } = stateReducer;
-    console.log('stateReducer',stateReducer)
+    
    
     const onSubmit = async (ev) => {
         ev.preventDefault();

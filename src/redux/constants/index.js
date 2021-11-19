@@ -4,6 +4,7 @@ export const CREATE_USER = 'CREATE_USER'
 export const LOAD_USER = 'LOAD_USER'
 export const SUCCESS_USER = 'SUCCESS_USER'
 export const ERROR_USER = 'ERROR_USER'
+export const FETCH_PESSOAS = 'FETCH_PESSOAS'
 
 // CONST ANIMAL
 export const FETCH_ANIMALS = 'FETCH_ANIMALS'

@@ -5,7 +5,8 @@ import SignIn from './pages/singin';
 import Dashboard from './pages/dashboard';
 
 import Atendimento  from './pages/atendimento';
-import Usuarios from './pages/usuarios'
+import Usuarios from './pages/usuarios';
+import GerenciamentoUsuarios from './pages/usuarios/Gerenciamento';
 import Pets from './pages/pets';
 
 import Alergias from './pages/atendimento/alergias';
@@ -27,6 +28,7 @@ const Router = () => {
                 
                 <Route path="/atendimento" exact component={Atendimento} /> 
                 <Route path="/usuarios" exact component={Usuarios} /> 
+                <Route path="/usuarios/gerenciamento" exact component={GerenciamentoUsuarios} /> 
                 <Route path="/pets" exact component={Pets} /> 
                 <Route path="/pets/adicionar" exact component={AddPets} /> 
 

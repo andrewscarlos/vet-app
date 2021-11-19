@@ -13,7 +13,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
-import { Link } from 'react-router-dom'
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { connect } from "react-redux";
@@ -22,6 +21,7 @@ import { createUser, stateReducer, stateAll } from "../../redux/actions";
 import Permissao from './Permissao'
 import { useSelector } from 'react-redux'
 import { ValidarCPF } from "./../../utils/cpf"
+import Settings from "@material-ui/icons/Settings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,7 +106,9 @@ const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
     }
   };
 
-
+const goGerencimento = ()=>{
+  history.push("/usuarios/gerenciamento");
+}
 
   return (
     funcPermissao === 'Administrativo' ?
@@ -227,6 +229,12 @@ const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
                 <Grid item xs={12} sm={6}>
                   <Button type="submit" variant="contained" color="primary">
                     {loading ? "loading" : "Salvar"}
+                  </Button>
+                </Grid>
+                
+                <Grid item xs={12} sm={6}>
+                  <Button onClick={goGerencimento} variant="contained" color="primary">
+                    <Settings/>
                   </Button>
                 </Grid>
               </Grid>
