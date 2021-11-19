@@ -119,6 +119,7 @@ const SignIn = ({userAuthenticate, stateReducer}) => {
                                 {loading ? ('loading'): ('Entrar')}
                             </Button>
                         
+                        
                     </form>
                 </div>
                 <ToastContainer/>
