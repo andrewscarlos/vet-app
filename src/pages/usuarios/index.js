@@ -22,6 +22,8 @@ import Permissao from './Permissao'
 import { useSelector } from 'react-redux'
 import { ValidarCPF } from "./../../utils/cpf"
 import Settings from "@material-ui/icons/Settings";
+import Assignment from "@material-ui/icons/Assignment";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,6 +110,10 @@ const CreatedUser = ({ createUser, stateReducer, stateAll }) => {
 
 const goGerencimento = ()=>{
   history.push("/usuarios/gerenciamento");
+}
+
+const goRelatorios = ()=>{
+  history.push("/usuarios/relatorios");
 }
 
   return (
@@ -235,6 +241,11 @@ const goGerencimento = ()=>{
                 <Grid item xs={12} sm={6}>
                   <Button onClick={goGerencimento} variant="contained" color="primary">
                     <Settings/>
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Button onClick={goRelatorios} variant="contained" color="primary">
+                    <Assignment/>
                   </Button>
                 </Grid>
               </Grid>
