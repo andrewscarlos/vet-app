@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
   createProntuario: {
     marginTop: "40px",
   },
+  botaofind: {
+    marginTop: "40px",
+  },
 }));
 
 const Relatorios = ({ animalReducer, fetchAnimals }) => {
@@ -80,24 +83,74 @@ const Relatorios = ({ animalReducer, fetchAnimals }) => {
   const permissao = useSelector((state) => state.user.userInfo.user);
 
   const { funcao } = permissao;
+  const [dataInicial, setDataInicial] = useState();
+  const [dataFinal, setDataFinal] = useState();
 
-  const getByday = async () => {
-    const { data } = await API.get(`${host}animaistoday`)
+  const getByday = async (dataInicial, dataFinal) => {
+    const { data } = await API.post(`${host}animaisdays`, {
+      dataInicial,
+      dataFinal,
+    })
       .then((r) => r)
       .catch((e) => e);
     return data;
   };
 
-  useEffect(async () => {
-    const response = await getByday();
-    setAnimais(response);
-    setShowModal(true);
-  }, []);
-  const [animais, setAnimais] = useState();
-  const [showModal, setShowModal] = useState(false);
+  const findAnimais = async () => {
+    const response = await getByday(dataInicial, dataFinal);
 
+    if (response) {
+      setAnimais(response);
+      setShowModal(true);
+    }
+  };
+
+  const [animais, setAnimais] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const ShowTable = () => {
+    return (
+      <>
+        <Paper className={classes.table}>
+          <Grid item sm={12}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Nome</TableCell>
+                  <TableCell>Especie</TableCell>
+                  <TableCell>Raça</TableCell>
+                  <TableCell>Sexo</TableCell>
+                  <TableCell>Pelagem</TableCell>
+                  <TableCell>Peso</TableCell>
+                  <TableCell>Temperamento</TableCell>
+                  <TableCell>CPF do Dono</TableCell>
+                  <TableCell align="right">Idade</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {animais.map((row) => (
+                  <TableRow>
+                    <TableCell>{row.nome}</TableCell>
+                    <TableCell>{row.especie}</TableCell>
+                    <TableCell>{row.raca}</TableCell>
+                    <TableCell>{row.sexo}</TableCell>
+                    <TableCell>{row.pelagem}</TableCell>
+                    <TableCell>{row.peso}</TableCell>
+                    <TableCell>{row.temperamento}</TableCell>
+                    <TableCell>{row.cpf}</TableCell>
+                    <TableCell align="right">{row.idade}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+        </Paper>
+      </>
+    );
+  };
+
   return funcao === "Administrativo" ? (
     <div className={classes.root}>
       <CssBaseline />
@@ -105,8 +158,8 @@ const Relatorios = ({ animalReducer, fetchAnimals }) => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid item sm={12}>
-            <Grid container spacing={4}>
+          <Grid item sm={10}>
+            <Grid container sm={6} spacing={4}>
               <Grid item xs={12} sm={6}>
                 <label>
                   Data Inicial
@@ -117,6 +170,7 @@ const Relatorios = ({ animalReducer, fetchAnimals }) => {
                     fullWidth
                     type="date"
                     variant="outlined"
+                    onChange={(e) => setDataInicial(e.target.value)}
                   />
                 </label>
               </Grid>
@@ -130,54 +184,22 @@ const Relatorios = ({ animalReducer, fetchAnimals }) => {
                     fullWidth
                     type="date"
                     variant="outlined"
+                    onChange={(e) => setDataFinal(e.target.value)}
                   />
                 </label>
               </Grid>
+              {showModal ? <ShowTable /> : null}
             </Grid>
             <Grid item xs={12} sm={6}>
               <Button
-               
+                className={classes.botaofind}
                 variant="contained"
                 color="primary"
+                onClick={findAnimais}
               >
                 <Search />
               </Button>
             </Grid>
-
-            <Paper className={classes.table}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Nome</TableCell>
-                    <TableCell>Especie</TableCell>
-                    <TableCell>Raça</TableCell>
-                    <TableCell>Sexo</TableCell>
-                    <TableCell>Pelagem</TableCell>
-                    <TableCell>Peso</TableCell>
-                    <TableCell>Temperamento</TableCell>
-                    <TableCell align="right">Idade</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {showModal
-                    ? animais.map((row) => (
-                        <TableRow>
-                          <TableCell>{row.nome}</TableCell>
-                          <TableCell>{row.especie}</TableCell>
-                          <TableCell>{row.raca}</TableCell>
-                          <TableCell>{row.sexo}</TableCell>
-                          <TableCell>{row.pelagem}</TableCell>
-                          <TableCell>{row.peso}</TableCell>
-                          <TableCell>{row.temperamento}</TableCell>
-                          <TableCell align="right">{row.idade}</TableCell>
-                        </TableRow>
-                      ))
-                    : null}
-                </TableBody>
-              </Table>
-            </Paper>
-
-            
           </Grid>
 
           <Box pt={4}>{/* <Footer /> */}</Box>
